@@ -15,19 +15,15 @@ var horseman = new Horseman({
 });
 
 //  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
-function pdfUnite(){
-	return horseman.do(function(done) {
-      pdfconcat(['horseman/' + emailData[0] + date[0] + '.pdf', 'horseman/' + emailData[0] + date[1] + '.pdf'], 'horseman/Jedi.pdf', function(err) {
-        // if (err) {
-        //   console.log(err);
-        // }else{
-        //   console.log('A new Jedi has been born');
-        // }
-      });
-          setTimeout(done,100);
-    })
-	}
+function pdfUnite() {
+  return horseman.do(function(done) {
+    pdfconcat(['horseman/' + emailData[0] + date[0] + '.pdf', 'horseman/' + emailData[0] + date[1] + '.pdf'], 'horseman/Jedi.pdf', function(err) {
+      // err ? console.log(err) : console.log('A new Jedi has been born');
 
+    });
+    setTimeout(done, 100);
+  })
+}
 
 //  set viewport and user agent for proper rendering
 horseman
@@ -60,14 +56,7 @@ horseman
 // Click to close leftmenu-trigger
 .click('[id="leftmenu-trigger"]')
 
-//   pdf capture. Tabloid is the best looking format for the home page
-  //  only exists so I can append two PDF's into one
-.pdf('horseman/' + emailData[0] + date[0] + '.pdf', {
-    format: 'Tabloid',
-    orientation: 'portrait',
-    margin: '0.2in'
-  })
-  .log('PDF')
+
 
 //  Manipulates the DOM appending some things and hiding some others.
 .evaluate(function(ms, done) {
@@ -84,7 +73,20 @@ horseman
     emailData.push(data);
   })
   .log(emailData)
-  .log(emailData[0])
+  .then(function() {
+    console.log(emailData[0]);
+  })
+
+  //   pdf capture. Tabloid is the best looking format for the home page
+  //  only exists so I can append two PDF's into one
+  .then(function() {
+      return horseman.pdf('horseman/' + emailData[0] + date[0] + '.pdf', {
+        format: 'Tabloid',
+        orientation: 'portrait',
+        margin: '0.2in'
+      })
+    })
+    .log('PDF')
 
 
 //  this block is getting the clean ou bread crumb appended from above and then hiding it.
@@ -101,26 +103,32 @@ horseman
     emailData.push(data);
   })
   .log(emailData)
-  .log(emailData[1])
+  .then(function() {
+    console.log(emailData[1]);
+  })
 
-
-.wait(2000)
 
 //   screenshot of view with appended
-.screenshot('horseman/' + emailData[0] + date[1] + '.png')
+.then(function() {
+    return horseman.screenshot('horseman/' + emailData[0] + date[1] + '.png')
+  })
   .log('PNG')
 
 //   pdf capture. Tabloid is the best looking format for the home page
-  //  we might need to have different formating for different reports
-.pdf('horseman/' + emailData[0] + date[1] + '.pdf', {
-    format: 'Tabloid',
-    orientation: 'portrait',
-    margin: '0.2in'
+//  we might need to have different formating for different reports
+.then(function() {
+    return horseman.pdf('horseman/' + emailData[0] + date[1] + '.pdf', {
+      format: 'Tabloid',
+      orientation: 'portrait',
+      margin: '0.2in'
+    })
   })
   .log('PDF')
 
 //   captures cropped image of page view.
-.crop('.col-md-9', 'horseman/' + emailData[0] + date[2] + '.png')
+.then(function() {
+    return horseman.crop('.col-md-9', 'horseman/' + emailData[0] + date[2] + '.png')
+  })
   .log('PNG cropped')
 
 // After the login accepts a cookie as auth we can use this feature to navigate the site using tabs like you would in a browser
@@ -142,6 +150,6 @@ horseman
 //   })
 
 
-  .then(pdfUnite)
+.then(pdfUnite)
 
-  .close();
+.close();
