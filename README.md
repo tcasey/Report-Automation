@@ -24,4 +24,6 @@ Most of the methods used can be found on [casperJS](http://docs.casperjs.org/en/
 
   * Branch out examples to their own JS files.
   * Verify logging in with a cookie actually works
-  * Make the login examples generic
+  * Automatize the naming of files created to be unique
+  * Make pdfUnite method for horseman (inject the generated files and return a multi-paged PDF)
+  * Save files in S3

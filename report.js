@@ -7,7 +7,6 @@ var Horseman = require('node-horseman'),
   keys = require('./keys'),
   date = [1, 2, 3],
   emailData = [],
-  emailDataReturned,
   ou = 'yoda';
 
 //  horseman options can be added & set within this object
@@ -15,12 +14,27 @@ var horseman = new Horseman({
   switchToNewTab: true
 });
 
+//  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
+function pdfUnite(){
+	return horseman.do(function(done) {
+      pdfconcat(['horseman/' + emailData[0] + date[0] + '.pdf', 'horseman/' + emailData[0] + date[1] + '.pdf'], 'horseman/Jedi.pdf', function(err) {
+        // if (err) {
+        //   console.log(err);
+        // }else{
+        //   console.log('A new Jedi has been born');
+        // }
+      });
+          setTimeout(done,100);
+    })
+	}
+
+
 //  set viewport and user agent for proper rendering
 horseman
   .userAgent('"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2790.0 Safari/537.36"')
   .viewport(780, 980)
 
-  //  adds a cookie
+//  adds a cookie
 .cookies({
   name: ou,
   value: ou,
@@ -34,8 +48,14 @@ horseman
   .click('[id="b1"]')
   .keyboardEvent('keypress', 16777221)
 
-.log('waiting for 2 seconds')
+.log('.5 second delay')
+  .wait(500)
+
+.click("span:contains('Reports')")
+  .wait(500)
+  .click("span:contains('Acquisition')")
   .wait(2000)
+
 
 // Click to close leftmenu-trigger
 .click('[id="leftmenu-trigger"]')
@@ -47,7 +67,7 @@ horseman
     orientation: 'portrait',
     margin: '0.2in'
   })
-  .log('PDF has been CAPTURED')
+  .log('PDF')
 
 //  Manipulates the DOM appending some things and hiding some others.
 .evaluate(function(ms, done) {
@@ -64,28 +84,31 @@ horseman
     emailData.push(data);
   })
   .log(emailData)
+  .log(emailData[0])
+
 
 //  this block is getting the clean ou bread crumb appended from above and then hiding it.
-  //  only exists because current ou bred crumb has some weird stuff attatched to it.
-  .evaluate(function(ms, done) {
-    $('#page-heading').append('<span id=cleanBC>ou Bread Crumb</span>');
-    var bc = $('#cleanBC').text();
-    $('#cleanBC').hide();
+//  only exists because current ou bred crumb has some weird stuff attatched to it.
+.evaluate(function(ms, done) {
+  $('#page-heading').append('<span id=cleanBC>ou Bread Crumb</span>');
+  var bc = $('#cleanBC').text();
+  $('#cleanBC').hide();
 
-    done(null, bc);
-  }, 1000)
+  done(null, bc);
+}, 1000)
 
-  .then(function(data) {
-      emailData.push(data);
-      console.log('Its working! ITS WOOOORRRKKKING!!!', emailData[0]);
-    })
-    .log(emailData)
+.then(function(data) {
+    emailData.push(data);
+  })
+  .log(emailData)
+  .log(emailData[1])
 
-    .wait(2000)
+
+.wait(2000)
 
 //   screenshot of view with appended
 .screenshot('horseman/' + emailData[0] + date[1] + '.png')
-  .log('Screenshot has been TAKEN')
+  .log('PNG')
 
 //   pdf capture. Tabloid is the best looking format for the home page
   //  we might need to have different formating for different reports
@@ -94,11 +117,11 @@ horseman
     orientation: 'portrait',
     margin: '0.2in'
   })
-  .log('PDF has been CAPTURED')
+  .log('PDF')
 
 //   captures cropped image of page view.
 .crop('.col-md-9', 'horseman/' + emailData[0] + date[2] + '.png')
-  .log('Cropped screenshot has been TAKEN')
+  .log('PNG cropped')
 
 // After the login accepts a cookie as auth we can use this feature to navigate the site using tabs like you would in a browser
 
@@ -118,11 +141,7 @@ horseman
 //     return horseman;
 //   })
 
-.close();
 
-//  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
-setTimeout(function() {
-  pdfconcat(['horseman/yoda1.pdf', 'horseman/yoda2.pdf'], 'horseman/Jedi.pdf', function(err) {});
-  console.log('A new Jedi has been born');
-  console.log(emailData[0]);
-}, 10000)
+  .then(pdfUnite)
+
+  .close();
