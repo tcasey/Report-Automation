@@ -1,7 +1,5 @@
 var Horseman = require('node-horseman'),
   pdfconcat = require('pdfconcat'),
-  // im = require('imagemagick'),
-  // co = require('co'),
   baseURL = 'https://cfa.convirza.com/#/',
   filter = '&filter=America',
   keys = require('./keys'),
@@ -18,8 +16,7 @@ var horseman = new Horseman({
 function pdfUnite() {
   return horseman.do(function(done) {
     pdfconcat(['horseman/' + emailData[0] + date[0] + '.pdf', 'horseman/' + emailData[0] + date[1] + '.pdf'], 'horseman/Jedi.pdf', function(err) {
-      // err ? console.log(err) : console.log('A new Jedi has been born');
-
+      err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
   })
@@ -56,8 +53,6 @@ horseman
 // Click to close leftmenu-trigger
 .click('[id="leftmenu-trigger"]')
 
-
-
 //  Manipulates the DOM appending some things and hiding some others.
 .evaluate(function(ms, done) {
   $('#page-heading').append('<span id=filter>yoda</span>');
@@ -72,10 +67,6 @@ horseman
 .then(function(data) {
     emailData.push(data);
   })
-  .log(emailData)
-  .then(function() {
-    console.log(emailData[0]);
-  })
 
   //   pdf capture. Tabloid is the best looking format for the home page
   //  only exists so I can append two PDF's into one
@@ -87,7 +78,6 @@ horseman
       })
     })
     .log('PDF')
-
 
 //  this block is getting the clean ou bread crumb appended from above and then hiding it.
 //  only exists because current ou bred crumb has some weird stuff attatched to it.
@@ -102,11 +92,6 @@ horseman
 .then(function(data) {
     emailData.push(data);
   })
-  .log(emailData)
-  .then(function() {
-    console.log(emailData[1]);
-  })
-
 
 //   screenshot of view with appended
 .then(function() {
@@ -130,25 +115,6 @@ horseman
     return horseman.crop('.col-md-9', 'horseman/' + emailData[0] + date[2] + '.png')
   })
   .log('PNG cropped')
-
-// After the login accepts a cookie as auth we can use this feature to navigate the site using tabs like you would in a browser
-
-// .openTab('baseURL + filter')
-
-// .log('waiting for 2 seconds')
-//   .wait(2000)
-
-// .screenshot('horseman/' + emailData[0] + date[2] + '.png')
-//   .log('Screenshot has been TAKEN')
-
-//  Proof that the cookies work. Haza!
-
-// .cookies()
-//   .then(function(cookies) {
-//     console.log(cookies);
-//     return horseman;
-//   })
-
 
 .then(pdfUnite)
 
