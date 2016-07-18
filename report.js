@@ -15,7 +15,7 @@ var horseman = new Horseman({
 //  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat(['horseman/*pdf', 'horseman/*pdf'], 'horseman/Jedi.pdf', function(err) {
+    pdfconcat(['horseman/' + emailData[0] + date[0] + '.pdf', 'horseman/' + emailData[0] + date[3] + '.pdf', , 'horseman/' + emailData[0] + date[6] + '.pdf'], 'horseman/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
@@ -62,9 +62,10 @@ horseman
   emailData.push(data);
 })
 
+.wait(2000)
 .then(function() {
   return horseman.pdf('horseman/' + emailData[0] + date[0] + '.pdf', {
-    format: 'Tabloid',
+    format: 'A2',
     orientation: 'portrait',
     margin: '0.2in'
   })
@@ -77,7 +78,6 @@ horseman
   })
   .log('yoda2 PNG')
 
-//   captures cropped image of page view.
 .then(function() {
     return horseman.crop('.col-md-9', 'horseman/' + emailData[0] + date[2] + 'cropped.png')
   })
@@ -102,17 +102,20 @@ horseman
   .log()
   .viewport(1100, 980)
 
-// Click to close leftmenu-trigger
-.click('[id="leftmenu-trigger"]')
 
+.click('[id="leftmenu-trigger"]')
 
 .evaluate(function(ms, done) {
   $('#page-heading').append('<span id=filter>yoda</span>');
+    // $('.fa-calendar').click();
+    // $("li:contains('Last 30 Days')").click();
+    // setTimeout(10000);
   $('img').hide();
   $('#simpleChart').hide();
   $('.fa-chevron-down').hide();
   $('.input-group-btn').hide();
   $("button:contains('Advanced filter')").hide();
+  $('#leftmenu-trigger').click();
 
   var filter = $('#filter').text();
   done(null, filter);
@@ -128,7 +131,7 @@ horseman
   .log('yoda4 PDF')
 
 //  this block is getting the clean ou bread crumb appended from above and then hiding it.
-//  only exists because current ou bred crumb has some weird stuff attatched to it.
+  //  only exists because current ou bred crumb has some weird stuff attatched to it.
 .evaluate(function(ms, done) {
   $('#page-heading').append('<span id=cleanBC>ou Bread Crumb</span>');
   var bc = $('#cleanBC').text();
@@ -155,22 +158,28 @@ horseman
   .log('yoda6 PNG')
 
 
+  /////////////////////////
+  /// Reports Call Flow ///
+  /////////////////////////
 
 .evaluate(function(ms, done) {
   $('.fa-bar-chart-o').click();
   $("span:contains('Acquisition')").click();
   $("span:contains('Call Flows')").click();
-  $("button:contains('Reset Charts')").click();
-  // setTimeout(
-  //   function() {
-      $('#leftmenu-trigger').click();
-    // }, 2000);
 
   done(null);
-}, 3000)
+}, 1000)
+
+.evaluate(function(ms, done) {
+  $('#page-heading').append('<span id=filter>yoda</span>');
+  $("button:contains('Reset Charts')").hide();
+  // $('#leftmenu-trigger').click();
+
+  done(null);
+}, 1000)
 
 .log('waiting.....')
-  .wait(7000)
+  .wait(4000)
   .url()
   .log()
   .viewport(1080, 980)
@@ -200,6 +209,6 @@ horseman
   .log('yoda9 PNG')
 
 
-// .then(pdfUnite)
+.then(pdfUnite)
 
 .close();
