@@ -3,7 +3,7 @@ var Horseman = require('node-horseman'),
   baseURL = 'https://cfa.convirza.com/#/',
   filter = '&filter=America',
   keys = require('./keys'),
-  date = [1, 2, 3],
+  date = [1, 2, 3, 4, 5, 6, 7, 8, 9],
   emailData = [],
   ou = 'yoda';
 
@@ -15,7 +15,7 @@ var horseman = new Horseman({
 //  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat(['horseman/' + emailData[0] + date[0] + '.pdf', 'horseman/' + emailData[0] + date[1] + '.pdf'], 'horseman/Jedi.pdf', function(err) {
+    pdfconcat(['horseman/*pdf', 'horseman/*pdf'], 'horseman/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
@@ -25,17 +25,20 @@ function pdfUnite() {
 //  set viewport and user agent for proper rendering
 horseman
   .userAgent('"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2790.0 Safari/537.36"')
-  .viewport(780, 980)
+  // .viewport(1280, 980)
 
 //  adds a cookie
 .cookies({
-  name: ou,
-  value: ou,
-  domain: '.convirza.com'
-})
-
-//  opens & logs into cfa app
-.open(baseURL + 'login/')
+    name: ou,
+    value: ou,
+    domain: '.convirza.com'
+  })
+  ////////////////////////
+  /////// Home ///////////
+  ////////////////////////
+  .viewport(780, 980)
+  //  opens & logs into cfa app
+  .open(baseURL + 'login/')
   .type('input[id="email"]', keys.cfa_email)
   .type('input[id="password"]', keys.cfa_pass)
   .click('[id="b1"]')
@@ -43,41 +46,86 @@ horseman
 
 .log('.5 second delay')
   .wait(500)
-
-.click("span:contains('Reports')")
-  .wait(500)
-  .click("span:contains('Acquisition')")
-  .wait(2000)
+  .url()
+  .log()
+  .click('[id="leftmenu-trigger"]')
 
 
-// Click to close leftmenu-trigger
-.click('[id="leftmenu-trigger"]')
-
-//  Manipulates the DOM appending some things and hiding some others.
 .evaluate(function(ms, done) {
   $('#page-heading').append('<span id=filter>yoda</span>');
-  $('.fa-bar-chart-o').click();
-  $('.navbar').hide();
-  $('.page-leftbar').hide();
   $('img').hide();
   var filter = $('#filter').text();
   done(null, filter);
 }, 1000)
 
 .then(function(data) {
-    emailData.push(data);
-  })
+  emailData.push(data);
+})
 
-  //   pdf capture. Tabloid is the best looking format for the home page
-  //  only exists so I can append two PDF's into one
-  .then(function() {
-      return horseman.pdf('horseman/' + emailData[0] + date[0] + '.pdf', {
-        format: 'Tabloid',
-        orientation: 'portrait',
-        margin: '0.2in'
-      })
+.then(function() {
+  return horseman.pdf('horseman/' + emailData[0] + date[0] + '.pdf', {
+    format: 'Tabloid',
+    orientation: 'portrait',
+    margin: '0.2in'
+  })
+})
+
+.log('yoda1 PDF')
+
+.then(function() {
+    return horseman.screenshot('horseman/' + emailData[0] + date[1] + '.png')
+  })
+  .log('yoda2 PNG')
+
+//   captures cropped image of page view.
+.then(function() {
+    return horseman.crop('.col-md-9', 'horseman/' + emailData[0] + date[2] + 'cropped.png')
+  })
+  .log('yoda3 PNG')
+
+////////////////////////
+//// Call Details //////
+////////////////////////
+
+//  Manipulates the DOM and navigates to Call Details page.
+.evaluate(function(ms, done) {
+  $('.fa-bar-chart-o').click();
+  $("span:contains('Call Logs')").click();
+  $("span:contains('Details')").click();
+
+  done(null);
+}, 1000)
+
+.log('waiting.....')
+  .wait(5000)
+  .url()
+  .log()
+  .viewport(1100, 980)
+
+// Click to close leftmenu-trigger
+.click('[id="leftmenu-trigger"]')
+
+
+.evaluate(function(ms, done) {
+  $('#page-heading').append('<span id=filter>yoda</span>');
+  $('img').hide();
+  $('#simpleChart').hide();
+  $('.fa-chevron-down').hide();
+  $('.input-group-btn').hide();
+  $("button:contains('Advanced filter')").hide();
+
+  var filter = $('#filter').text();
+  done(null, filter);
+}, 1000)
+
+.then(function() {
+    return horseman.pdf('horseman/' + emailData[0] + date[3] + '.pdf', {
+      format: 'A2',
+      orientation: 'portrait',
+      margin: '0.2in'
     })
-    .log('PDF')
+  })
+  .log('yoda4 PDF')
 
 //  this block is getting the clean ou bread crumb appended from above and then hiding it.
 //  only exists because current ou bred crumb has some weird stuff attatched to it.
@@ -85,37 +133,73 @@ horseman
   $('#page-heading').append('<span id=cleanBC>ou Bread Crumb</span>');
   var bc = $('#cleanBC').text();
   $('#cleanBC').hide();
+  $('#filter').hide();
 
   done(null, bc);
 }, 1000)
 
 .then(function(data) {
-    emailData.push(data);
-  })
+  emailData.push(data);
+})
 
 //   screenshot of view with appended
 .then(function() {
-    return horseman.screenshot('horseman/' + emailData[0] + date[1] + '.png')
+    return horseman.screenshot('horseman/' + emailData[0] + date[4] + '.png')
   })
-  .log('PNG')
+  .log('yoda5 PNG')
 
-//   pdf capture. Tabloid is the best looking format for the home page
-//  we might need to have different formating for different reports
+//   captures cropped image of page view.
 .then(function() {
-    return horseman.pdf('horseman/' + emailData[0] + date[1] + '.pdf', {
-      format: 'Tabloid',
+    return horseman.crop('.panel-inverse', 'horseman/' + emailData[0] + date[5] + 'cropped.png')
+  })
+  .log('yoda6 PNG')
+
+
+
+.evaluate(function(ms, done) {
+  $('.fa-bar-chart-o').click();
+  $("span:contains('Acquisition')").click();
+  $("span:contains('Call Flows')").click();
+  $("button:contains('Reset Charts')").click();
+  // setTimeout(
+  //   function() {
+      $('#leftmenu-trigger').click();
+    // }, 2000);
+
+  done(null);
+}, 3000)
+
+.log('waiting.....')
+  .wait(7000)
+  .url()
+  .log()
+  .viewport(1080, 980)
+
+
+.then(function() {
+    return horseman.pdf('horseman/' + emailData[0] + date[6] + '.pdf', {
+      format: 'A2',
       orientation: 'portrait',
       margin: '0.2in'
     })
   })
-  .log('PDF')
+  .log('yoda7 PDF')
+
+//   screenshot of view with appended
+.wait(1000)
+.then(function() {
+    return horseman.screenshot('horseman/' + emailData[0] + date[7] + '.png')
+  })
+  .log('yoda8 PNG')
 
 //   captures cropped image of page view.
+.wait(1000)
 .then(function() {
-    return horseman.crop('.col-md-9', 'horseman/' + emailData[0] + date[2] + '.png')
+    return horseman.crop('#callflowreport', 'horseman/' + emailData[0] + date[8] + 'cropped.png')
   })
-  .log('PNG cropped')
+  .log('yoda9 PNG')
 
-.then(pdfUnite)
+
+// .then(pdfUnite)
 
 .close();
