@@ -52,7 +52,6 @@ function urlParse() {
       return urlCurrent.split('?')[0];
     }
     var route = urlCurrent.substr(urlCurrent.indexOf("#") + 2);
-    console.log(cleanUrl(route));
     routes.unshift(cleanUrl(route));
   })
 }

@@ -10,6 +10,7 @@ var Horseman = require('node-horseman'),
   emailData = [],
   obiOne,
   routes = ['home'],
+  pageAmt = [],
   ou = 'yoda';
 
 //  horseman options can be added & set within this object
@@ -52,7 +53,6 @@ function urlParse() {
       return urlCurrent.split('?')[0];
     }
     var route = urlCurrent.substr(urlCurrent.indexOf("#") + 2);
-    console.log(cleanUrl(route));
     routes.unshift(cleanUrl(route));
   })
 }
@@ -64,15 +64,10 @@ function paginationLogic() {
   }, 500)
 
   .then(function(data) {
-    var page = data;
+    var text = data.split(' ').reverse();
+    var page = (Math.ceil(text[0]/100))
+    pageAmt.unshift(page);
 
-    function cleanUrl(page) {
-      return page.split(' ').reverse();
-    }
-
-    if (page[0] > page[2]) {
-      console.log(page);
-    }
   })
 }
 
@@ -154,6 +149,8 @@ horseman
   .wait(2000)
 
 .then(urlParse)
+.then(paginationLogic)
+.log(pageAmt)
 
 .viewport(1200, 980)
 
