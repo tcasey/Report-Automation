@@ -9,7 +9,7 @@ You will need to:
 - uncomment the methods you want to use
 - run `casperjs casperCrawl.js` in your terminal for CasperJS methods
 - run `phantomjs menace.js` in your terminal for PhantomJS methods
-- run `node report` in your terminal for node-horseman methods
+- run `node` + `name of file` in your terminal for node-horseman methods
 
 
 ## Use Case
@@ -22,8 +22,7 @@ Most of the methods used can be found on [casperJS](http://docs.casperjs.org/en/
 
 ### Todo's
 
-  * Branch out examples to their own JS files.
   * Verify logging in with a cookie actually works
-  * Automatize the naming of files created to be unique
-  * Make pdfUnite method for horseman (inject the generated files and return a multi-paged PDF)
+  * Automatize the naming of files created to be unique (ou+route+date/number)
+  * Make pdfUnite method for horseman (works but I need to make it more dynamic)
   * Save files in S3

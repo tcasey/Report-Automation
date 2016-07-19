@@ -24,7 +24,7 @@ var horseman = new Horseman({
 //  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat(['acquisition/' + emailData[0] +'-'+ routes[2] +'-'+ date[0] + '.pdf', 'acquisition/' + emailData[0]  +'-'+ routes[1] +'-'+ date[3] + '.pdf', 'acquisition/' + emailData[0] +'-'+ routes[0] +'-'+ date[6] + '.pdf'], 'horseman/Jedi.pdf', function(err) {
+    pdfconcat(['acquisition/' + emailData[0] +'-'+ routes[1] +'-'+ date[0] + '.pdf', 'acquisition/' + emailData[0] +'-'+ routes[0] +'-'+ date[6] + '.pdf'], 'acquisition/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
@@ -167,7 +167,7 @@ horseman
   })
   .log('9 PNG')
 
-// .then(pdfUnite)
+.then(pdfUnite)
 
 .log(emailData)
   .log(routes)

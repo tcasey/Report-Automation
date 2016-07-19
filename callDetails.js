@@ -24,7 +24,7 @@ var horseman = new Horseman({
 //  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat(['callDetails/' + emailData[0] +'-'+ routes[2] +'-'+ date[0] + '.pdf', 'callDetails/' + emailData[0]  +'-'+ routes[1] +'-'+ date[3] + '.pdf', 'callDetails/' + emailData[0] +'-'+ routes[0] +'-'+ date[6] + '.pdf'], 'callDetails/Jedi.pdf', function(err) {
+    pdfconcat(['callDetails/' + emailData[0] +'-'+ routes[1] +'-'+ date[0] + '.pdf', 'callDetails/' + emailData[0]  +'-'+ routes[0] +'-'+ date[3] + '.pdf'], 'callDetails/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
@@ -57,24 +57,24 @@ function urlParse() {
   })
 }
 
-// function paginationLogic() {
-//   return horseman.evaluate(function(ms, done) {
-//     var paginationIndicator = $('.mb10').text();
-//     done(null, paginationIndicator);
-//   }, 500)
-//
-//   .then(function(data) {
-//     var page = data;
-//
-//     function cleanUrl(page) {
-//       return page.split(' ').reverse();
-//     }
-//
-//     if (page[0] > page[2]) {
-//
-//     }
-//   })
-// }
+function paginationLogic() {
+  return horseman.evaluate(function(ms, done) {
+    var paginationIndicator = $('.mb10').text();
+    done(null, paginationIndicator);
+  }, 500)
+
+  .then(function(data) {
+    var page = data;
+
+    function cleanUrl(page) {
+      return page.split(' ').reverse();
+    }
+
+    if (page[0] > page[2]) {
+      console.log(page);
+    }
+  })
+}
 
 
 horseman
@@ -211,7 +211,7 @@ horseman
   })
   .log('6 PNG')
 
-  // .then(pdfUnite)
+  .then(pdfUnite)
 
   .log(emailData)
     .log(routes)
