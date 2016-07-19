@@ -18,7 +18,8 @@
     "node-horseman": "^3.1.1",
     "pdfconcat": "^1.0.2",
     "phantomjs": "^2.1.7",
-    "phantomjs-prebuilt": "^2.1.7"
+    "phantomjs-prebuilt": "^2.1.7",
+    "request": "^2.73.0"
   },
   "repository": {
     "type": "",
