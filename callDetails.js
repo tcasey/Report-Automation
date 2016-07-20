@@ -11,6 +11,7 @@ var Horseman = require('node-horseman'),
   obiOne,
   routes = ['home'],
   pageAmt = [],
+  newImage = [],
   ou = 'yoda';
 
 //  horseman options can be added & set within this object
@@ -207,6 +208,12 @@ horseman
     return horseman.crop('.panel-inverse', 'callDetails/' + emailData[0] +'-'+ routes[0] +'-'+ date[5] + '-cropped.png')
   })
   .log('6 PNG')
+
+  // .screenshotBase64('PNG')
+  .then(function() {
+    var newImage = horseman.cropBase64('.panel-inverse', 'PNG');
+    return newImage.unshift(newImage);
+  })
 
   .then(pdfUnite)
 
