@@ -30,6 +30,16 @@ function pdfUnite() {
   })
 }
 
+
+function try() {
+    var text = $('.mb10').text().split(' ').reverse();
+      var checking = text[0];
+      if (158 === checking) {
+        var filter = document.URL.split('?')[1];
+        $('#page-heading').append('<span id=cleanBC>YODAAAAAAAAA</span>');
+      }
+}
+
 var horseman = new Horseman();
 
 horseman
@@ -111,25 +121,34 @@ co(function*() {
   console.log('# of paginated pages: ', pageLogic); // # of paginated pages: #
 
   if (pageLogic > 1) {
-    for (var i = pageLogic; 1 <= i; i--) {
+
+    for (var i = 1; pageLogic >= i; i++) {
       yield horseman.evaluate(function() {
-        var cleanUrl = document.URL.split('?')[1];
-        // var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-        $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
+        var filter = document.URL.split('?')[1];
+        $('#page-heading').append('<span id=cleanBC>' + filter + '</span>');
       })
-      yield horseman.wait(5000);
-      yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png')
+      yield horseman.wait(500);
+      yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png')
 
       yield horseman.evaluate(function() {
         $("button:contains('Next 100')").click();
-        setTimeout(5000);
       })
-      console.log(i);
-      console.log('waiting....');
-      yield horseman.waitForSelector('#cdr_table');
-      yield horseman.wait(7000)
+
+      // yield horseman.click('button:contains("Next 100")');
+      // yield horseman.waitForNextPage();
+
+      console.log('page ', i);
+      // yield horseman.waitForSelector('#cdr_table');
+
+      yield horseman.wait(6000)
     }
+
   } else {
+    yield horseman.evaluate(function() {
+      var cleanUrl = document.URL.split('?')[1];
+      var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
+      $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
+    })
     yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-.png')
   }
 
