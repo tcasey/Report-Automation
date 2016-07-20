@@ -31,14 +31,14 @@ function pdfUnite() {
 }
 
 
-function try() {
-    var text = $('.mb10').text().split(' ').reverse();
-      var checking = text[0];
-      if (158 === checking) {
-        var filter = document.URL.split('?')[1];
-        $('#page-heading').append('<span id=cleanBC>YODAAAAAAAAA</span>');
-      }
-}
+// function try() {
+//     var text = $('.mb10').text().split(' ').reverse();
+//       var checking = text[0];
+//       if (158 === checking) {
+//         var filter = document.URL.split('?')[1];
+//         $('#page-heading').append('<span id=cleanBC>YODAAAAAAAAA</span>');
+//       }
+// }
 
 var horseman = new Horseman();
 
