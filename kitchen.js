@@ -30,27 +30,17 @@ function pdfUnite() {
   })
 }
 
-
-// function try() {
-//     var text = $('.mb10').text().split(' ').reverse();
-//       var checking = text[0];
-//       if (158 === checking) {
-//         var filter = document.URL.split('?')[1];
-//         $('#page-heading').append('<span id=cleanBC>YODAAAAAAAAA</span>');
-//       }
-// }
-
 var horseman = new Horseman();
 
 horseman
   .userAgent('"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2790.0 Safari/537.36"')
 
 co(function*() {
-  yield horseman.cookies({
-    name: ou,
-    value: ou,
-    domain: '.convirza.com'
-  })
+  // yield horseman.cookies({
+  //   name: ou,
+  //   value: ou,
+  //   domain: '.convirza.com'
+  // })
   yield horseman.viewport(780, 980);
   yield horseman.open(baseURL + 'login/');
   yield horseman.type('input[id="email"]', keys.cfa_email);
@@ -62,13 +52,6 @@ co(function*() {
   yield horseman.wait(2000);
 
   yield horseman.click('[id="leftmenu-trigger"]');
-
-  // yield horseman.evaluate(function(ms, done) {
-  //   $('#page-heading').append('<span id=filter>yoda</span>');
-  //   $('img').hide();
-  //   var filter = $('#filter').text();
-  //   done(null, filter);
-  // }, 500)
 
   var url = yield horseman.url();
   console.log(url);
@@ -102,8 +85,15 @@ co(function*() {
   }, 1000)
   console.log('waiting ....');
 
-  yield horseman.wait(6000);
+  yield horseman.waitForSelector('.mb10');
   yield horseman.viewport(1200, 980);
+
+  yield horseman.evaluate(function() {
+    $('fa-calendar').click();
+    $("li:contains('Last 30 Days')").click();
+  })
+
+  yield horseman.wait(4000);
 
   var urlCurrent = yield horseman.url();
   var cleanUrl = urlCurrent.split('?')[0];
@@ -125,32 +115,44 @@ co(function*() {
     for (var i = 1; pageLogic >= i; i++) {
       yield horseman.evaluate(function() {
         var filter = document.URL.split('?')[1];
-        $('#page-heading').append('<span id=cleanBC>' + filter + '</span>');
+        if (filter !== undefined) {
+          $(document).ready(function() {
+            $('#cdr_table').append('<span id=cleanBC>' + filter + '</span>');
+          });
+        }
       })
-      yield horseman.wait(500);
-      yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png')
+      yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
 
-      yield horseman.evaluate(function() {
-        $("button:contains('Next 100')").click();
-      })
+      yield horseman.wait(1000);
+      // console.log('click???');
+      // yield horseman.evaluate(function() {
+      //   $("button:contains('Next 100')").click();
+      // })
+      // console.log('clicked!');
+      // yield horseman.wait(1000);
 
-      // yield horseman.click('button:contains("Next 100")');
-      // yield horseman.waitForNextPage();
+      yield horseman.click('button:contains("Next 100")');
 
       console.log('page ', i);
-      // yield horseman.waitForSelector('#cdr_table');
+      yield horseman.wait(14000)
+      yield horseman.waitForSelector('.btn-midnightblue'); // it's timing out waiting for this
 
-      yield horseman.wait(6000)
+      console.log('should be loaded by now');
+
     }
 
-  } else {
-    yield horseman.evaluate(function() {
-      var cleanUrl = document.URL.split('?')[1];
-      var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-      $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
-    })
-    yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-.png')
   }
+
+
+
+  //  else {
+  //   yield horseman.evaluate(function() {
+  //     var cleanUrl = document.URL.split('?')[1];
+  //     var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
+  //     $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
+  //   })
+  //   yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-.png')
+  // }
 
 
   // will be used to append filter to the view for screenshots
