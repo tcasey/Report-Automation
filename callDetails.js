@@ -210,14 +210,22 @@ horseman
   .log('6 PNG')
 
   // .screenshotBase64('PNG')
-  .then(function() {
-    var newImage = horseman.cropBase64('.panel-inverse', 'PNG');
-    return newImage.unshift(newImage);
-  })
+  // .then(function() {
+  //   var newImage = horseman.cropBase64('.panel-inverse', 'PNG');
+  //   return newImage.unshift(newImage);
+  // })
 
   .then(pdfUnite)
 
   .log(emailData)
     .log(routes)
+
+    //  Proof that the cookies work. Haza!
+
+    .cookies()
+      .then(function(cookies) {
+        console.log(cookies);
+        return horseman;
+      })
 
 .close();

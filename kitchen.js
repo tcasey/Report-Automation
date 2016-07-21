@@ -30,7 +30,11 @@ function pdfUnite() {
   })
 }
 
-var horseman = new Horseman();
+//  horseman options can be added & set within this object
+var horseman = new Horseman({
+  switchToNewTab: true,
+  timeout: 15000
+});
 
 horseman
   .userAgent('"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2790.0 Safari/537.36"')
@@ -121,60 +125,25 @@ co(function*() {
           });
         }
       })
-      yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
+      yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
 
       yield horseman.wait(1000);
-      // console.log('click???');
-      // yield horseman.evaluate(function() {
-      //   $("button:contains('Next 100')").click();
-      // })
-      // console.log('clicked!');
-      // yield horseman.wait(1000);
 
       yield horseman.click('button:contains("Next 100")');
 
       console.log('page ', i);
-      yield horseman.wait(14000)
-      yield horseman.waitForSelector('.btn-midnightblue'); // it's timing out waiting for this
-
-      console.log('should be loaded by now');
-
+      // yield horseman.wait(7000);
+      yield horseman.waitForSelector('.btn-midnightblue');
     }
-
+  } else {
+    yield horseman.evaluate(function() {
+      var cleanUrl = document.URL.split('?')[1];
+      var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
+      $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
+    })
+    yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-.png')
   }
 
-
-
-  //  else {
-  //   yield horseman.evaluate(function() {
-  //     var cleanUrl = document.URL.split('?')[1];
-  //     var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-  //     $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
-  //   })
-  //   yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-.png')
-  // }
-
-
-  // will be used to append filter to the view for screenshots
-  // yield horseman.evaluate(function(ms, done) {
-  //     var cleanUrl = document.URL.split('?')[0];
-  //     var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-  //   $('#page-heading').append('<span id=cleanBC>'+route+'</span>');
-  //   done(null);
-  // }, 500)
-  //
-  // yield horseman.pdf('co/' + emailData[0] + '-' + routes[0] + '-' + date[3] + '.pdf', {
-  //   format: 'A2',
-  //   orientation: 'portrait',
-  //   margin: '0.2in'
-  // })
-  // console.log('4 PDF');
-  //
-  // yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-' + date[4] + '.png')
-  // console.log('5 PNG');
-  //
-  // yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + date[5] + '-cropped.png')
-  // console.log('6 PNG');
 
 
   // var appendImage = yield horseman.screenshotBase64('JPEG');
@@ -194,21 +163,3 @@ co(function*() {
 }).catch(function(data) {
   console.log(data)
 });
-// After the login accepts a cookie as auth we can use this feature to navigate the site using tabs like you would in a browser
-//  Took out of report script before the close()
-
-// .openTab('baseURL + filter')
-
-// .log('waiting for 2 seconds')
-//   .wait(2000)
-
-// .screenshot('horseman/' + emailData[0] + date[2] + '.png')
-//   .log('Screenshot has been TAKEN')
-
-//  Proof that the cookies work. Haza!
-
-// .cookies()
-//   .then(function(cookies) {
-//     console.log(cookies);
-//     return horseman;
-//   })

@@ -171,4 +171,12 @@ horseman
 .log(emailData)
   .log(routes)
 
+  //  Proof that the cookies work. Haza!
+
+  .cookies()
+    .then(function(cookies) {
+      console.log(cookies);
+      return horseman;
+    })
+
 .close();
