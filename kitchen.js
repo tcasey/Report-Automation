@@ -1,18 +1,12 @@
 var Horseman = require('node-horseman'),
   pdfconcat = require('pdfconcat'),
-  request = require('request'),
-  util = require('util'),
-  fs = require('fs'),
-  baseURL = 'https://stag-cmo-la.convirza.com/#/',
-  filter = '&filter=America',
+  config = require('./config.json'),
   keys = require('./keys'),
   date = [1, 2, 3, 4, 5, 6, 7, 8, 9],
   emailData = [],
-  obiOne,
   routes = ['home'],
   pageAmt = [],
   newImage = [],
-  ou = 'yoda',
   co = require('co');
 
 
@@ -40,13 +34,13 @@ horseman
   .userAgent('"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2790.0 Safari/537.36"')
 
 co(function*() {
-  // yield horseman.cookies({
-  //   name: ou,
-  //   value: ou,
-  //   domain: '.convirza.com'
-  // })
+  yield horseman.cookies({
+    name: config.cookie.name,
+    value: config.cookie.value,
+    domain: config.cookie.domain
+  })
   yield horseman.viewport(780, 980);
-  yield horseman.open(baseURL + 'login/');
+  yield horseman.open(config.baseURL + 'login/');
   yield horseman.type('input[id="email"]', keys.cfa_email);
   yield horseman.type('input[id="password"]', keys.cfa_pass);
   yield horseman.click('[id="b1"]');
@@ -114,50 +108,80 @@ co(function*() {
   var pageLogic = pageAmt[0];
   console.log('# of paginated pages: ', pageLogic); // # of paginated pages: #
 
-  if (pageLogic > 1) {
-
-    for (var i = 1; pageLogic >= i; i++) {
-      yield horseman.evaluate(function() {
-        var filter = document.URL.split('?')[1];
-        if (filter !== undefined) {
-          $(document).ready(function() {
-            $('#cdr_table').append('<span id=cleanBC>' + filter + '</span>');
-          });
+  switch (config.format) {
+    case "HTML":
+      if (pageLogic > 1) {
+        for (var i = 1; pageLogic >= i; i++) {
+          yield horseman.evaluate(function() {
+            var filter = document.URL.split('?')[1];
+            if (filter !== undefined) {
+              $(document).ready(function() {
+                $('#cdr_table').append('<span id=cleanBC>' + filter + '</span>');
+              });
+            }
+          })
+          yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
+          yield horseman.wait(1000);
+          yield horseman.click('button:contains("Next 100")');
+          console.log('page ', i);
+          // yield horseman.wait(7000);
+          yield horseman.waitForSelector('.btn-midnightblue');
         }
+      } else {
+        yield horseman.evaluate(function() {
+          var cleanUrl = document.URL.split('?')[1];
+          var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
+          $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
+        })
+        yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-.png')
+      }
+      console.log("HTML has been captured");
+      break;
+    case "PDF":
+
+    if (pageLogic > 1) {
+      for (var i = 1; pageLogic >= i; i++) {
+        yield horseman.evaluate(function() {
+          var filter = document.URL.split('?')[1];
+          if (filter !== undefined) {
+            $(document).ready(function() {
+              $('#cdr_table').append('<span id=cleanBC>' + filter + '</span>');
+            });
+          }
+        })
+        yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ date[3] + '.pdf', {
+          format: 'A2',
+          orientation: 'portrait',
+          margin: '0.2in'
+        })
+        yield horseman.wait(1000);
+        yield horseman.click('button:contains("Next 100")');
+        console.log('page ', i);
+        // yield horseman.wait(7000);
+        yield horseman.waitForSelector('.btn-midnightblue');
+      }
+    } else {
+      yield horseman.evaluate(function() {
+        var cleanUrl = document.URL.split('?')[1];
+        var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
+        $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
       })
-      yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
-
-      yield horseman.wait(1000);
-
-      yield horseman.click('button:contains("Next 100")');
-
-      console.log('page ', i);
-      // yield horseman.wait(7000);
-      yield horseman.waitForSelector('.btn-midnightblue');
+      yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ date[3] + '.pdf', {
+        format: 'A2',
+        orientation: 'portrait',
+        margin: '0.2in'
+      })
     }
-  } else {
-    yield horseman.evaluate(function() {
-      var cleanUrl = document.URL.split('?')[1];
-      var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-      $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
-    })
-    yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-.png')
+      console.log("PDF has been captured");
+      break;
+    case "CSV":
+
+      console.log("May or may not have been captured");
+      break;
+
+    default:
+      console.log("The requested " + config.format + " format is not supported. :/");
   }
-
-
-
-  // var appendImage = yield horseman.screenshotBase64('JPEG');
-  // console.log(appendImage);
-  // yield horseman.evaluate(function(ms, done, appendImage) {
-  //   var appendImage = appendImage;
-  //   $('#page-heading').append('<img src="data:image/jpeg;base64,' + appendImage + ' " ');
-  //   done(null);
-  // }, 1000)
-  // yield horseman.wait(5000);
-  // yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-' + date[6] + '.png')
-  // console.log('7 PNG');
-  // console.log(emailData);
-
 
   yield horseman.close();
 }).catch(function(data) {

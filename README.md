@@ -9,7 +9,7 @@ You will need to:
 - uncomment the methods you want to use
 - run `casperjs casperCrawl.js` in your terminal for CasperJS methods
 - run `phantomjs menace.js` in your terminal for PhantomJS methods
-- run `node` + `name of file` in your terminal for node-horseman methods
+- run `node` + `name of file` in your terminal for node-horseman methods (`kitchen.js  is the main script`)
 
 
 ## Use Case

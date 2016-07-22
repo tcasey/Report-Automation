@@ -51,3 +51,7 @@ function paginationLogic() {
 //  I need a function that can take in a number variable
 //  It needs to capture the view in PDF & PNG formats
 //  Then Click and repeat the capture as many times as the variable indicates
+
+
+// switch statement that takes in format of report as well as report page. **this is due to the method in which the crawler is currently functioning
+//  needing a statement for the report page will be unecessary because instead of crawling to it we will just pass in the URL and open it.
