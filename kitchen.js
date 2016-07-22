@@ -4,7 +4,7 @@ var Horseman = require('node-horseman'),
   keys = require('./keys'),
   date = [1, 2, 3, 4, 5, 6, 7, 8, 9],
   emailData = [],
-  routes = ['home'],
+  routes = [],
   pageAmt = [],
   newImage = [],
   co = require('co');
@@ -58,19 +58,6 @@ co(function*() {
   console.log('Title: ' + title); //Convirza for Advertisers
   emailData.unshift(title);
 
-  yield horseman.pdf('co/' + emailData[0] + '-' + routes[0] + '-' + date[0] + '.pdf', {
-    format: 'A2',
-    orientation: 'portrait',
-    margin: '0.2in'
-  })
-  console.log('1 PDF');
-
-  yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-' + date[1] + '.png')
-  console.log('2 PNG');
-
-  yield horseman.crop('.col-md-9', 'co/' + emailData[0] + '-' + routes[0] + '-' + date[2] + '-cropped.png')
-  console.log('3 PNG');
-
   ////////////////////////
   //// Call Details //////
   ////////////////////////
@@ -123,8 +110,8 @@ co(function*() {
           yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
           yield horseman.wait(1000);
           yield horseman.click('button:contains("Next 100")');
-          console.log('page ', i);
-          // yield horseman.wait(7000);
+          console.log(config.format, i);
+
           yield horseman.waitForSelector('.btn-midnightblue');
         }
       } else {
@@ -133,7 +120,7 @@ co(function*() {
           var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
           $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
         })
-        yield horseman.screenshot('co/' + emailData[0] + '-' + routes[0] + '-.png')
+        yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
       }
       console.log("HTML has been captured");
       break;
@@ -149,15 +136,15 @@ co(function*() {
             });
           }
         })
-        yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ date[3] + '.pdf', {
+        yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ i + '.pdf', {
           format: 'A2',
           orientation: 'portrait',
           margin: '0.2in'
         })
         yield horseman.wait(1000);
         yield horseman.click('button:contains("Next 100")');
-        console.log('page ', i);
-        // yield horseman.wait(7000);
+        console.log(config.format, i);
+
         yield horseman.waitForSelector('.btn-midnightblue');
       }
     } else {
@@ -166,7 +153,7 @@ co(function*() {
         var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
         $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
       })
-      yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ date[3] + '.pdf', {
+      yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ i + '.pdf', {
         format: 'A2',
         orientation: 'portrait',
         margin: '0.2in'

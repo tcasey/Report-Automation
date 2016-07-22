@@ -1,5 +1,5 @@
 {
-  "format": "HTML",
+  "format": "PDF",
   "baseURL": "https://stag-cmo-la.convirza.com/#/",
   "report": "callDetails",
   "filter": "&filter=America",
