@@ -23,6 +23,6 @@ Most of the methods used can be found on [casperJS](http://docs.casperjs.org/en/
 ### Todo's
 
   * Verify logging in with a cookie actually works
-  * Automatize the naming of files created to be unique (ou+route+date/number)
+  * Automatize the naming of files created to be unique (ou+route+frequency/number)
   * Make pdfUnite method for horseman (works but I need to make it more dynamic)
   * Save files in S3

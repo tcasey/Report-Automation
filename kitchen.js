@@ -2,7 +2,7 @@ var Horseman = require('node-horseman'),
   pdfconcat = require('pdfconcat'),
   config = require('./config.json'),
   keys = require('./keys'),
-  date = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  // date = [1, 2, 3, 4, 5, 6, 7, 8, 9],
   emailData = [],
   routes = [],
   pageAmt = [],
@@ -17,7 +17,7 @@ var Horseman = require('node-horseman'),
 //  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat(['callDetails/' + emailData[0] + '-' + routes[1] + '-' + date[0] + '.pdf', 'callDetails/' + emailData[0] + '-' + routes[0] + '-' + date[3] + '.pdf'], 'callDetails/Jedi.pdf', function(err) {
+    pdfconcat(['co/' + emailData[0] + '-' + routes[1] + '-' + date[0] + '.pdf', 'co/' + emailData[0] + '-' + routes[0] + '-' + date[3] + '.pdf'], 'co/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
@@ -136,6 +136,10 @@ co(function*() {
             });
           }
         })
+
+        //  **** NEW NAMING CONVENTION HERE
+        //   var namely = emailData[0]  +'-'+ routes[0] +'-'+ i;
+        //   yield horseman.pdf('co/' + namely + '.pdf'
         yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ i + '.pdf', {
           format: 'A2',
           orientation: 'portrait',
@@ -147,6 +151,11 @@ co(function*() {
 
         yield horseman.waitForSelector('.btn-midnightblue');
       }
+      //  **** PDF CONCAT HERE
+
+      //     pdfconcat(['co/' + emailData[0] + '-' + routes[1] + '-' + date[0] + '.pdf', 'co/' + emailData[0] + '-' + routes[0] + '-' + date[3] + '.pdf'], 'co/Jedi.pdf', function(err) {
+      //     err ? console.log(err) : console.log('A new Jedi has been born');
+
     } else {
       yield horseman.evaluate(function() {
         var cleanUrl = document.URL.split('?')[1];
@@ -162,7 +171,10 @@ co(function*() {
       console.log("PDF has been captured");
       break;
     case "CSV":
-
+    // .download(url, [path], [binary])
+    //     Download the contents of url.
+    //     If path is supplied the contents will be written there, otherwise this gets the contents.
+    //     If binary is true it gets the contents as a node Buffer, otherwise it gets them as a string (binary defaults to false).
       console.log("May or may not have been captured");
       break;
 

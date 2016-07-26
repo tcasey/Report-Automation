@@ -1,17 +1,9 @@
-// I need a function that can replace the current pdfUnite method
+
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat(['callDetails/' + emailData[0] +'-'+ routes[1] +'-'+ date[0] + '.pdf', 'callDetails/' + emailData[0]  +'-'+ routes[0] +'-'+ date[3] + '.pdf'], 'callDetails/Jedi.pdf', function(err) {
+    pdfconcat([ou+i+ '.pdf', 'callDetails/' + emailData[0]  +'-'+ routes[0] +'-'+ date[3] + '.pdf'], 'callDetails/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
-    setTimeout(done, 100);
-  })
-}
-
-function Jedi() {
-  return horseman.do(function(done) {
-    var obiOne = JSON.stringify(emailData[1]);
-    // console.log(obiOne);
     setTimeout(done, 100);
   })
 }
@@ -47,11 +39,13 @@ function paginationLogic() {
   })
 }
 
+// **** Maybe push naming convention to object so that it can be injected into pdfconcat
+// **** Concatinate PDF's after the for loop has run
 
-//  I need a function that can take in a number variable
-//  It needs to capture the view in PDF & PNG formats
-//  Then Click and repeat the capture as many times as the variable indicates
+// **** Need to make a class specific to spot where the filter will append to.
+// **** Need to make a class specific to what the cropped image will be.
 
+// **** Grab specific HTML elements to use in HTML email. Something to add some "Flare"
 
-// switch statement that takes in format of report as well as report page. **this is due to the method in which the crawler is currently functioning
-//  needing a statement for the report page will be unecessary because instead of crawling to it we will just pass in the URL and open it.
+// **** Maybe make the folder be dynamic to the S3 bucket.
+// not sure about this one....
