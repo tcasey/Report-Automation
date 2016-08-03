@@ -1,13 +1,12 @@
 var Horseman = require('node-horseman'),
-  pdfconcat = require('pdfconcat'),
   config = require('./config.json'),
+  pdfconcat = require('pdfconcat'),
   keys = require('./keys'),
-  // date = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  co = require('co'),
   emailData = [],
   routes = [],
-  pageAmt = [],
-  newImage = [],
-  co = require('co');
+  namely= [],
+  pageAmt = [];
 
 
 ////////////////////////
@@ -17,7 +16,7 @@ var Horseman = require('node-horseman'),
 //  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat(['co/' + emailData[0] + '-' + routes[1] + '-' + date[0] + '.pdf', 'co/' + emailData[0] + '-' + routes[0] + '-' + date[3] + '.pdf'], 'co/Jedi.pdf', function(err) {
+    pdfconcat(['co/' + namelyOrdered[0] + '.pdf', 'co/' + namelyOrdered[1] + '.pdf', 'co/' + namelyOrdered[2] + '.pdf', 'co/' + namelyOrdered[3] + '.pdf', 'co/' + namelyOrdered[4] + '.pdf'], 'co/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
@@ -62,7 +61,7 @@ co(function*() {
   //// Call Details //////
   ////////////////////////
 
-  yield horseman.evaluate(function(ms, done) {
+  yield horseman.evaluate(function(ms, done) {  // Navigating to Call Details page
     $('.fa-bar-chart-o').click();
     $("span:contains('Call Logs')").click();
     $("span:contains('Details')").click();
@@ -70,24 +69,24 @@ co(function*() {
   }, 1000)
   console.log('waiting ....');
 
-  yield horseman.waitForSelector('.mb10');
+  yield horseman.waitForSelector('.mb10'); // Waiting for page of selector
   yield horseman.viewport(1200, 980);
 
-  yield horseman.evaluate(function() {
+  yield horseman.evaluate(function() {  // Changing date range
     $('fa-calendar').click();
     $("li:contains('Last 30 Days')").click();
   })
 
   yield horseman.wait(4000);
 
-  var urlCurrent = yield horseman.url();
+  var urlCurrent = yield horseman.url();  // Split up URL
   var cleanUrl = urlCurrent.split('?')[0];
   var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
   routes.unshift(route);
 
   console.log(route); // calls-details
 
-  var text = yield horseman.text('.mb10');
+  var text = yield horseman.text('.mb10');  // Calculating paginated pages
   var paginationIndicator = text.split(' ').reverse();
   var page = (Math.ceil(paginationIndicator[0] / 100))
 
@@ -96,6 +95,7 @@ co(function*() {
   console.log('# of paginated pages: ', pageLogic); // # of paginated pages: #
 
   switch (config.format) {
+
     case "HTML":
       if (pageLogic > 1) {
         for (var i = 1; pageLogic >= i; i++) {
@@ -107,7 +107,9 @@ co(function*() {
               });
             }
           })
-          yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
+          namely.unshift(emailData[0]  +'-'+ routes[0] +'-'+ i);    //  **** NEW NAMING CONVENTION HERE
+
+          yield horseman.crop('.panel-inverse', 'co/' + namely[0] + '.png');
           yield horseman.wait(1000);
           yield horseman.click('button:contains("Next 100")');
           console.log(config.format, i);
@@ -120,12 +122,15 @@ co(function*() {
           var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
           $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
         })
-        yield horseman.crop('.panel-inverse', 'co/' + emailData[0] + '-' + routes[0] + '-' + i + '.png');
+        namely.unshift(emailData[0]  +'-'+ routes[0] +'-'+ i);    //  **** NEW NAMING CONVENTION HERE
+
+        yield horseman.crop('.panel-inverse', 'co/' + namely[0] + '.png');
       }
+      console.log(namely);
       console.log("HTML has been captured");
       break;
-    case "PDF":
 
+    case "PDF":
     if (pageLogic > 1) {
       for (var i = 1; pageLogic >= i; i++) {
         yield horseman.evaluate(function() {
@@ -137,10 +142,9 @@ co(function*() {
           }
         })
 
-        //  **** NEW NAMING CONVENTION HERE
-        //   var namely = emailData[0]  +'-'+ routes[0] +'-'+ i;
-        //   yield horseman.pdf('co/' + namely + '.pdf'
-        yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ i + '.pdf', {
+
+            namely.unshift(emailData[0]  +'-'+ routes[0] +'-'+ i);     //  **** NEW NAMING CONVENTION HERE
+        yield horseman.pdf('co/' +namely[0]+'.pdf', {
           format: 'A2',
           orientation: 'portrait',
           margin: '0.2in'
@@ -162,16 +166,27 @@ co(function*() {
         var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
         $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
       })
-      yield horseman.pdf('co/' + emailData[0]  +'-'+ routes[0] +'-'+ i + '.pdf', {
+      namely.unshift(emailData[0]  +'-'+ routes[0] +'-'+ i);      //  **** NEW NAMING CONVENTION HERE
+      yield horseman.pdf('co/' +namely[0]+ '.pdf', {
         format: 'A2',
         orientation: 'portrait',
         margin: '0.2in'
       })
     }
       console.log("PDF has been captured");
+      // PDF MERGEEEEERRRRRR
+      // yield horseman.do(function(done) {
+      //   var namelyOrdered = namely.reverse();
+      //   pdfconcat(['co/' + namelyOrdered[0] + '.pdf', 'co/' + namelyOrdered[1] + '.pdf', 'co/' + namelyOrdered[2] + '.pdf', 'co/' + namelyOrdered[3] + '.pdf', 'co/' + namelyOrdered[4] + '.pdf'], 'co/Jedi.pdf', function(err) {
+      //     err ? console.log(err) : console.log('A new Jedi has been born');
+      //   });
+      //   setTimeout(done, 100);
+      // })
+
       break;
+
     case "CSV":
-    // .download(url, [path], [binary])
+    yield horseman.download(config.baseURL, csv.csv)
     //     Download the contents of url.
     //     If path is supplied the contents will be written there, otherwise this gets the contents.
     //     If binary is true it gets the contents as a node Buffer, otherwise it gets them as a string (binary defaults to false).

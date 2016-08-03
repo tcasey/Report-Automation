@@ -1,7 +1,10 @@
 
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat([ou+i+ '.pdf', 'callDetails/' + emailData[0]  +'-'+ routes[0] +'-'+ date[3] + '.pdf'], 'callDetails/Jedi.pdf', function(err) {
+
+var namelyOrdered = namely.reverse();
+
+pdfconcat(['co/' + namelyOrdered[0] + '.pdf', 'co/' + namelyOrdered[1] + '.pdf', 'co/' + namelyOrdered[2] + '.pdf', 'co/' + namelyOrdered[3] + '.pdf', 'co/' + namelyOrdered[4] + '.pdf'], 'co/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
@@ -39,7 +42,7 @@ function paginationLogic() {
   })
 }
 
-// **** Maybe push naming convention to object so that it can be injected into pdfconcat
+// **** Maybe push naming convention to array so that it can be injected into pdfconcat
 // **** Concatinate PDF's after the for loop has run
 
 // **** Need to make a class specific to spot where the filter will append to.
