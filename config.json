@@ -2,11 +2,12 @@
   "format": "PDF",
   "baseURL": "https://stag-cmo-la.convirza.com/#/",
   "report": "callDetails",
+  "OU": "BlingyMarketingLLC",
   "filter": "&filter=America",
   "dateSet": "July 15",
   "dateFilter": "",
   "dateTrigger": "July 25",
-  "frequency": "7 days",
+  "frequencyInHour": "168",
   "cookie": {
     "name": "yoda",
     "value": "yoda",

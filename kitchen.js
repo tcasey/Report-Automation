@@ -6,6 +6,7 @@ var Horseman = require('node-horseman'),
   emailData = [],
   routes = [],
   namely= [],
+  concatIt = [],
   pageAmt = [];
 
 
@@ -16,7 +17,7 @@ var Horseman = require('node-horseman'),
 //  Joins multiple single paged PDF's into a single multi-paged PDF. (Say that five times fast)
 function pdfUnite() {
   return horseman.do(function(done) {
-    pdfconcat(['co/' + namelyOrdered[0] + '.pdf', 'co/' + namelyOrdered[1] + '.pdf', 'co/' + namelyOrdered[2] + '.pdf', 'co/' + namelyOrdered[3] + '.pdf', 'co/' + namelyOrdered[4] + '.pdf'], 'co/Jedi.pdf', function(err) {
+    pdfconcat(['co/' + namely[0] + '.pdf', 'co/' + namely[1] + '.pdf', 'co/' + namely[2] + '.pdf', 'co/' + namely[3] + '.pdf', 'co/' + namely[4] + '.pdf'], 'co/Jedi.pdf', function(err) {
       err ? console.log(err) : console.log('A new Jedi has been born');
     });
     setTimeout(done, 100);
@@ -103,11 +104,11 @@ co(function*() {
             var filter = document.URL.split('?')[1];
             if (filter !== undefined) {
               $(document).ready(function() {
-                $('#cdr_table').append('<span id=cleanBC>' + filter + '</span>');
+                $('#cdr_table').append('<span id=cleanBC>Current applied filter: ' + filter + '</span>');
               });
             }
           })
-          namely.unshift(emailData[0]  +'-'+ routes[0] +'-'+ i);    //  **** NEW NAMING CONVENTION HERE
+          namely.unshift(routes[0] + '-' + config.frequencyInHour + '-' + i);    //  **** NEW NAMING CONVENTION HERE
 
           yield horseman.crop('.panel-inverse', 'co/' + namely[0] + '.png');
           yield horseman.wait(1000);
@@ -120,13 +121,12 @@ co(function*() {
         yield horseman.evaluate(function() {
           var cleanUrl = document.URL.split('?')[1];
           var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-          $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
+          $('#page-heading').append('<span id=cleanBC>Current applied filter: ' + cleanUrl + '</span>');
         })
-        namely.unshift(emailData[0]  +'-'+ routes[0] +'-'+ i);    //  **** NEW NAMING CONVENTION HERE
+        namely.unshift(routes[0] + '-' + config.frequencyInHour + '-' + i);    //  **** NEW NAMING CONVENTION HERE
 
         yield horseman.crop('.panel-inverse', 'co/' + namely[0] + '.png');
       }
-      console.log(namely);
       console.log("HTML has been captured");
       break;
 
@@ -137,13 +137,13 @@ co(function*() {
           var filter = document.URL.split('?')[1];
           if (filter !== undefined) {
             $(document).ready(function() {
-              $('#cdr_table').append('<span id=cleanBC>' + filter + '</span>');
+              $('#cdr_table').append('<span id=cleanBC>Current applied filter: ' + filter + '</span>');
             });
           }
         })
 
 
-            namely.unshift(emailData[0]  +'-'+ routes[0] +'-'+ i);     //  **** NEW NAMING CONVENTION HERE
+            namely.unshift(routes[0] + '-' + config.frequencyInHour + '-' + i);     //  **** NEW NAMING CONVENTION HERE
         yield horseman.pdf('co/' +namely[0]+'.pdf', {
           format: 'A2',
           orientation: 'portrait',
@@ -155,18 +155,29 @@ co(function*() {
 
         yield horseman.waitForSelector('.btn-midnightblue');
       }
-      //  **** PDF CONCAT HERE
 
-      //     pdfconcat(['co/' + emailData[0] + '-' + routes[1] + '-' + date[0] + '.pdf', 'co/' + emailData[0] + '-' + routes[0] + '-' + date[3] + '.pdf'], 'co/Jedi.pdf', function(err) {
-      //     err ? console.log(err) : console.log('A new Jedi has been born');
+      //  **** PDF CONCAT HERE
+      yield horseman.do(function(done) {
+
+        var namelyOrdered = namely.reverse();
+        function fileNamesToConcat(element) {
+          concatIt.push('co/' + element + '.pdf');
+        }
+        namelyOrdered.forEach(fileNamesToConcat);
+
+          pdfconcat(concatIt, 'co/Jedi.pdf', function(err) {
+            err ? console.log(err) : console.log('A new Jedi has been born');
+          });
+          setTimeout(done, 100);
+        })
 
     } else {
       yield horseman.evaluate(function() {
         var cleanUrl = document.URL.split('?')[1];
         var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-        $('#page-heading').append('<span id=cleanBC>' + cleanUrl + '</span>');
+        $('#page-heading').append('<span id=cleanBC>Current applied filter: ' + cleanUrl + '</span>');
       })
-      namely.unshift(emailData[0]  +'-'+ routes[0] +'-'+ i);      //  **** NEW NAMING CONVENTION HERE
+      namely.unshift(routes[0] + '-' + config.frequencyInHour + '-' + i);      //  **** NEW NAMING CONVENTION HERE
       yield horseman.pdf('co/' +namely[0]+ '.pdf', {
         format: 'A2',
         orientation: 'portrait',
@@ -174,14 +185,7 @@ co(function*() {
       })
     }
       console.log("PDF has been captured");
-      // PDF MERGEEEEERRRRRR
-      // yield horseman.do(function(done) {
-      //   var namelyOrdered = namely.reverse();
-      //   pdfconcat(['co/' + namelyOrdered[0] + '.pdf', 'co/' + namelyOrdered[1] + '.pdf', 'co/' + namelyOrdered[2] + '.pdf', 'co/' + namelyOrdered[3] + '.pdf', 'co/' + namelyOrdered[4] + '.pdf'], 'co/Jedi.pdf', function(err) {
-      //     err ? console.log(err) : console.log('A new Jedi has been born');
-      //   });
-      //   setTimeout(done, 100);
-      // })
+
 
       break;
 
