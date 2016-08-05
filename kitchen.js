@@ -27,7 +27,7 @@ function pdfUnite() {
 //  horseman options can be added & set within this object
 var horseman = new Horseman({
   switchToNewTab: true,
-  timeout: 15000
+  timeout: 30000
 });
 
 horseman
@@ -108,7 +108,7 @@ co(function*() {
               });
             }
           })
-          namely.unshift(routes[0] + '-' + config.frequencyInHour + '-' + i);    //  **** NEW NAMING CONVENTION HERE
+          namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i);    //  **** NEW NAMING CONVENTION HERE
 
           yield horseman.crop('.panel-inverse', 'co/' + namely[0] + '.png');
           yield horseman.wait(1000);
@@ -123,7 +123,7 @@ co(function*() {
           var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
           $('#page-heading').append('<span id=cleanBC>Current applied filter: ' + cleanUrl + '</span>');
         })
-        namely.unshift(routes[0] + '-' + config.frequencyInHour + '-' + i);    //  **** NEW NAMING CONVENTION HERE
+        namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i);    //  **** NEW NAMING CONVENTION HERE
 
         yield horseman.crop('.panel-inverse', 'co/' + namely[0] + '.png');
       }
@@ -143,7 +143,7 @@ co(function*() {
         })
 
 
-            namely.unshift(routes[0] + '-' + config.frequencyInHour + '-' + i);     //  **** NEW NAMING CONVENTION HERE
+            namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i);     //  **** NEW NAMING CONVENTION HERE
         yield horseman.pdf('co/' +namely[0]+'.pdf', {
           format: 'A2',
           orientation: 'portrait',
@@ -177,7 +177,7 @@ co(function*() {
         var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
         $('#page-heading').append('<span id=cleanBC>Current applied filter: ' + cleanUrl + '</span>');
       })
-      namely.unshift(routes[0] + '-' + config.frequencyInHour + '-' + i);      //  **** NEW NAMING CONVENTION HERE
+      namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i);      //  **** NEW NAMING CONVENTION HERE
       yield horseman.pdf('co/' +namely[0]+ '.pdf', {
         format: 'A2',
         orientation: 'portrait',
@@ -185,8 +185,6 @@ co(function*() {
       })
     }
       console.log("PDF has been captured");
-
-
       break;
 
     case "CSV":

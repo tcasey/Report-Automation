@@ -1,5 +1,5 @@
 {
-  "format": "PDF",
+  "format": "HTML",
   "baseURL": "https://stag-cmo-la.convirza.com/#/",
   "report": "callDetails",
   "OU": "BlingyMarketingLLC",
