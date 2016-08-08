@@ -42,8 +42,6 @@ function paginationLogic() {
   })
 }
 
-// **** Maybe push naming convention to array so that it can be injected into pdfconcat
-// **** Concatinate PDF's after the for loop has run
 
 // **** Need to make a class specific to spot where the filter will append to.
 // **** Need to make a class specific to what the cropped image will be.

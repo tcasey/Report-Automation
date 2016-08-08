@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Convirza for Advertisers</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+		<link rel="stylesheet" href="assets/css/compiled_styles.css" />
+
+		<!--TODO remove this Font?-->
+		<!--<link href='https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900' rel='stylesheet' type='text/css'>-->
+		<!--TODO remove this unused CSS?-->
+		<!--<link href='assets/demo/variations/default.css' rel='stylesheet' type='text/css' media='all' id='styleswitcher'>-->
+
+		<!--[if lt IE 9]>
+		  <link rel="stylesheet" href="assets/css/ie8.css">
+		<![endif]-->
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-animate.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-cookies.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-resource.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-route.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-sanitize.min.js"></script>
+
+
+		<!-- The following CSS are included as plugins and can be removed if unused
+		<link rel='stylesheet' type='text/css' href='assets/plugins/jcrop/css/jquery.Jcrop.min.css' />
+		<link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />-->
+
+		<link rel="stylesheet" href="assets/css/vendor.css">
+
+		<!--Put up in the concatted vers-->
+		<!--<link href="https://cdn.desk.com/assets/widget_embed_191.css" media="screen" rel="stylesheet" type="text/css"/>-->
+		<!-- <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css' /> -->
+<style type="text/css">
+.navbar-brand { background:url('/assets/img/cfa-logo2.png') no-repeat left/ auto auto !important; background-size:contain !important; }
+
+	.login-logo { background: rgba(0, 0, 0, 0) url('/assets/img/cfa-logo2.png') no-repeat scroll center center; height:100px; position:relative; top: -10px; }</style>
+
+		<script type="text/javascript">
+			function verifyGoDaddySSLSeal() {
+				console.log('hit here');
+				window.open(
+					"https://seal.godaddy.com/verifySeal?sealID=twNeyE6Pr4LF38p8ZyoemId7ZYQiWasFBklDT2RGMT3BTyl8sLpV6rwRCd8r",
+					"SealVerfication",
+					"location=yes,status=yes,resizable=yes,scrollbars=no,width=592,height=433"
+				);
+			}
+		</script>
+
+		<style type="text/css">
+			[ng-cloak] { display: none; }
+			.topNegative1000 { top: -1000px !important; }
+			.topZero { top: 0 !important; }
+			li#no-margin { margin: 0px; }
+			.mainview-animation { position: relative; }
+			.mainview-animation.ng-enter {
+				-webkit-transition: .3s linear all; /* Safari/Chrome */
+				-moz-transition: .3s linear all; /* Firefox */
+				-o-transition: .3s linear all; /* Opera */
+				transition: .3s linear all; /* IE10+ and Future Browsers */
+			}
+
+			.mainview-animation.ng-enter { opacity: 0; }
+			.mainview-animation.ng-enter.ng-enter-active { opacity: 1; }
+			.navbar.navbar-default.ng-hide { display: none; }
+			#page-rightbar .jspHorizontalBar {
+				/*display: none !important;*/
+			}
+			.fc-grid .fc-day-number { padding: 5px 6px; }
+			.large-icons-nav #top-nav > li > ul { top: 85px; }
+			#top-nav li > ul {
+				display: none;
+				position: absolute;
+				top: 40px;
+				left: 0;
+				padding-left: 0;
+				min-width: 200px;
+			}
+
+			@media (max-width: 768px) {
+				#top-nav li > ul {
+					position: inherit !important;
+					top: 0px !important;
+					padding-left: 20px !important;
+				}
+				#siteseal img { display: none; }
+			}
+
+			#top-nav li > ul li { list-style-type: none; }
+			#top-nav li > ul li ul { left: 100%; }
+			#top-nav li > ul li a {
+				width: 100%;
+				display: inline-block;
+			}
+			#top-nav li > ul li a:hover { text-decoration: none; }
+			#top-nav li:hover > ul { display: block; }
+			#horizontal-navbar .navbar-nav li.active a:before { display: none; }
+		</style>
+	</head>
+
+	<body class=""
+		  ng-app="themesApp"
+		  ng-controller="MainController"
+		  ng-class="{
+			  'static-header': !style_fixedHeader,
+			  'focusedform': style_fullscreen,
+			  'layout-horizontal': style_layoutHorizontal,
+			  'fixed-layout': style_layoutBoxed,
+			  'collapse-leftbar': style_leftbarCollapsed && !style_leftbarShown,
+			  'show-rightbar': style_rightbarCollapsed,
+			  'show-leftbar': style_leftbarShown
+		  }"
+		  ng-click="hideSearchBar();hideHeaderBar();"
+		  ng-cloak>
+		<header class="navbar navbar-inverse" ng-class="{'navbar-fixed-top': style_fixedHeader, 'navbar-static-top': !style_fixedHeader}" role="banner">
+			<a id="leftmenu-trigger" tooltip-placement="right" tooltip="Toggle Sidebar" ng-click="toggleLeftBar(); resizeWindow();"
+			   onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Toggle', eventLabel: 'Toggle Navbar'});"></a>
+			<a id="rightmenu-trigger" tooltip-placement="left" tooltip="Toggle Infobar" ng-click="toggleRightBar();"
+			   onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Toggle', eventLabel: 'Toggle Infobar'});" class="bootstro" data-bootstro-placement="bottom"
+			   data-bootstro-step="1" data-bootstro-width="400px" data-bootstro-content="Click this icon to toggle viewing Usage Data, Subscription Info, and Billing History" data-bootstro-title="Subscription and Billing"></a>
+
+			<div class="navbar-header pull-left">
+				<a class="navbar-brand" onClick="ga('send', 'event', { eventCategory: 'Image', eventAction: 'Click', eventLabel: 'Main Logo'});" href="#/">Convirza</a>
+			</div>
+
+			<ul class="nav navbar-nav pull-right toolbar">
+				<li class="dropdown" ng-show="!isLoggedIn">
+					<a href="#/login"  style="font-size: 14px"><i class="fa fa-sign-in"></i>
+						Log in</a>
+				</li>
+				<!--<li class="dropdown " ng-show="isLoggedIn">
+				  <a href="#" style="float:left;" class="dropdown-toggle hidden-xs" ng-click="toggleRightBar()"><span class="">Viewing: {{ currentOUName }} </span></a> <i id="rightmenu-trigger" tooltip-placement="left" tooltip="Toggle" class="visible-xs" ng-click="toggleRightBar()" style="border:none;"></i>
+				 </li>-->
+				<li class="dropdown" ng-show="isLoggedIn">
+					<a href="#" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Toggle', eventLabel: 'User Dropdown'});" class="dropdown-toggle username bootstro" data-bootstro-placement="bottom"
+					   data-bootstro-step="0" data-bootstro-width="400px" data-bootstro-content="Click Username to toggle viewing User Access and Support"
+					   data-bootstro-title="User Data"><span class="hidden-xs"> {{fullName}} </span> <img src="assets/demo/avatar/user.png" alt="User" />
+					</a>
+					<ul class="dropdown-menu userinfo arrow">
+						<li class="userlinks">
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#/profile" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Edit Profile'});">Edit
+										Profile <i class="pull-right fa fa-fw fa-pencil"></i></a></li>
+								<!-- The Admin Access link should only be visible for Super Admins or Support Admins so the ng-hide is just an example -->
+								<li ng-show="supportToken">
+									<a ng-click="switchAdmin()" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Admin Access'});">Admin
+										Access <i class="pull-right fa fa-fw fa-sign-in"></i></a></li>
+								<li class="divider"></li>
+								<li>
+									<!-- SHOULD ONLY SHOW ONE OR THE OTHER -->
+									<a ng-if="supportURL === null" ng-href="http://support.convirza.com" target="_blank" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Support'});">Support
+										<i class="pull-right fa fa-fw fa-compass"></i>
+									</a>
+									<a ng-if="supportURL !== null" ng-href="{{supportURL}}" target="_blank" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Support'});">Support
+										<i class="pull-right fa fa-fw fa-compass"></i>
+									</a>
+
+								</li>
+								<li ng-show="chatActive">
+									<a ng-href="{{chatURL}}" target="_blank" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Chat'});">Chat with an Agent  <i class="pull-right fa fa-fw fa-comment"></i></a></li>
+								<li class="divider"></li>
+								<li>
+									<a ng-controller="LogoutController" class="text-right" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Sign Out'});" ng-click="logOut()">Sign Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+
+				<li class="dropdown" ng-controller="MessagesController" ng-show="isLoggedIn">
+					<a href="#" class="dropdown-toggle bootstro" ng-click="" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Toggle', eventLabel: 'Toggle Activity Stream'});"
+					   data-bootstro-placement="bottom" data-bootstro-step="2" data-bootstro-width="400px" data-bootstro-content="Click icon to toggle viewing the most recent activity in your account"
+					   data-bootstro-title="Activity Stream">
+						<i class="fa fa-clock-o"></i>
+						<span class="badge badge-danger" ng-if="unseenCount>0" ng-bind="unseenCount"></span>
+					</a>
+					<ul class="dropdown-menu messages arrow">
+						<li class="dd-header">
+						</li>
+						<div class="scrollthis" jscrollpane="{autoReinitialise:true, autoReinitialiseDelay: 20}">
+							<li ng-repeat="item in logs">
+								<a href="#/activity-stream" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Activity Log Item'});">
+									<span class="time">{{item.log_date}}</span>
+									<!--<img ng-src="{{item.thumb}}" alt="avatar" />-->
+									<span class="name"><i ng-class="item.iconcss"></i> {{item.org_unit_name}}</span>
+									<span class="msg">{{item.first_name}} {{item.last_name}} {{item.action}} a <b>{{item.log_name}}</b> {{item.log_data.note}}</span>
+
+								</a>
+							</li>
+						</div>
+						<li class="dd-footer">
+							<a href="#/activity-stream" onClick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'View  All Activity'});">View
+								All Activity</a></li>
+					</ul>
+				</li>
+
+<!--			<li class="dropdown" ng-controller="NotificationsController" ng-show="isLoggedIn">
+					<a href="#" class="dropdown-toggle" title="Alerts">
+					  <i class="fa fa-bell"></i><span class="badge badge-orange" ng-if="unseenCount>0" ng-bind="unseenCount"></span>
+					</a>
+					<ul class="dropdown-menu notifications arrow">
+					  <li class="dd-header">
+						<span>You have {{unseenCount}} new alert(s)</span>
+						<span><a href="javascript:;" ng-click="setSeenAll($event)">Mark all Seen</a></span>
+					  </li>
+							<div class="scrollthis" jscrollpane="{autoReinitialise:true, autoReinitialiseDelay: 20}">
+						<li ng-repeat="item in notifications">
+						  <a href="#" class="{{item.class}}" ng-class="{active: !item.seen}">
+							<button tooltip-placement="top" tooltip-append-to-body="true" tooltip="Mark Seen" class="btn-mark-read" ng-if="!item.seen" ng-click="setSeen(item, $event)"><i class="fa fa-circle"></i></button>
+							<button tooltip-placement="top" tooltip-append-to-body="true" tooltip="Mark Unseen" class="btn-mark-unread" ng-if="item.seen" ng-click="setUnseen(item, $event)"><i class="fa fa-circle-thin"></i></button>
+							<span class="time">{{item.time}}</span>
+							<i class="{{item.iconClasses}}"></i>
+							<span class="msg">{{item.text}}</span>
+						  </a>
+						</li>
+							</div>
+					  <li class="dd-footer"><a href="#">Alerts Settings</a></li>
+					</ul>
+				</li>
+-->
+			</ul>
+		</header>
+		<nav class="navbar navbar-default ng-hide" role="navigation" ng-show="style_layoutHorizontal">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					<i class="fa fa-reorder"></i>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse navbar-ex1-collapse" ng-class="{'large-icons-nav': style_layoutHorizontalLargeIcons}" id="horizontal-navbar">
+				<ul ng-controller="NavigationController" id="top-nav" class="nav navbar-nav">
+					<li ng-repeat="item in menu"
+						ng-if="!item.hideOnHorizontal"
+						ng-class="{ hasChild: (item.children!==undefined),
+								active: item.selected,
+								  open: (item.children!==undefined) && item.open }"
+						ng-include="'templates/nav_renderer_horizontal.html'"
+					></li>
+				</ul>
+			</div>
+		</nav>
+		<div id="page-container" class="clearfix">
+
+			<!-- BEGIN SIDEBAR -->
+			<nav id="page-leftbar" role="navigation">
+
+				<div>
+					<ul ng-controller="NavigationController" id="sidebar" sticky-scroll="40">
+						<li ng-repeat="item in menu"
+							ng-class="{ hasChild: (item.children!==undefined),
+								active: item.selected,
+								  open: (item.children!==undefined) && item.open }"
+							ng-include="'templates/nav_renderer.html'"
+						></li>
+						<li class="mb10"
+							ng-class="{ hasChild: (item.children!==undefined),
+								active: item.selected,
+								  open: (item.children!==undefined) && item.open }" style="position:fixed;bottom:0;width:inherit;padding-left:10px;">
+							<div id="GoDaddySSLSeal">
+								<img src="img/sslsiteseal.gif" onClick="verifyGoDaddySSLSeal();"/>
+							</div>
+							<!-- <span id="siteseal">
+				  				<script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=twNeyE6Pr4LF38p8ZyoemId7ZYQiWasFBklDT2RGMT3BTyl8sLpV6rwRCd8r"></script>
+							</span> -->
+						</li>
+					</ul>
+				</div>
+				<!-- END SIDEBAR MENU -->
+			</nav>
+			<style>
+				/*ul.list-unstyled li:hover{background-color:#CCC;}*/
+			</style>
+			<!-- BEGIN RIGHTBAR -->
+			<div id="page-rightbar" sticky-scroll="40" ng-controller="SubscriptionController" rightbar-right-position="style_layoutBoxed" style="">
+				<div jscrollpane="{autoReinitialise:true, autoReinitialiseDelay: 100}" style="height: 100%;padding-bottom:40px">
+					<accordion close-others="rightbarAccordionsShowOne">
+						<accordion-group is-open="rightbarAccordions[0].open" ng-class="{open:rightbarAccordions[0].open}">
+
+							<accordion-heading>Current Usage Summary</accordion-heading>
+
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Active/Total Campaigns</div>
+								<div class="progress-percentage pull-right">
+									{{campActive}}/{{campTotal}}
+								</div>
+							</div>
+							<div class="progress">
+								<div class="progress-bar progress-bar-midnightblue" style="width: {{(campActive / campTotal) * 100 | number:0}}%"></div>
+								<div class="progress-bar progress-bar-info" style="width: {{100 - (campActive / campTotal) * 100 | number:0}}%"></div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Active/Total Tracking
+									Numbers
+								</div>
+								<div class="progress-percentage pull-right">
+									{{trkNumActive}}/{{trkNumTotal}}
+								</div>
+							</div>
+							<div class="progress">
+								<div class="progress-bar progress-bar-midnightblue" style="width: {{(trkNumActive / trkNumTotal) * 100 | number:0}}%"></div>
+								<div class="progress-bar progress-bar-info" style="width: {{100 - (trkNumActive / trkNumTotal) * 100 | number:0}}%"></div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Minutes</div>
+								<div class="progress-percentage pull-right">{{minTotal}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Calls</div>
+								<div class="progress-percentage pull-right">{{callTotal}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Users</div>
+								<div class="progress-percentage pull-right">{{usrTotal}}</div>
+							</div>
+							<!--<div class="clearfix mb10">-->
+							<!--<div class="progress-title pull-left">Call Actions</div>-->
+							<!--<div class="progress-percentage pull-right">{{callActionTotal}}</div>-->
+							<!--</div>-->
+						</accordion-group>
+
+						<accordion-group is-open="rightbarAccordions[1].open" ng-class="{open:rightbarAccordions[1].open}" ng-if="billing_node && admin">
+							<accordion-heading>Subscription Information</accordion-heading>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Account Number:</div>
+								<div class="progress-percentage pull-right">{{si.account_code}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Account Name:</div>
+								<div class="progress-percentage pull-right">{{si.account_name}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Subscription Number:</div>
+								<div class="progress-percentage pull-right">{{si.billing_code}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Subscription Name:</div>
+								<div class="progress-percentage pull-right">{{si.billing_name}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Activation Date:</div>
+								<div class="progress-percentage pull-right">{{si.activation_date}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Last Invoice Date:</div>
+								<div class="progress-percentage pull-right">{{si.prev_invoice_date}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Last Payment Date:</div>
+								<div class="progress-percentage pull-right">{{si.payment_date}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Last Payment Amount:</div>
+								<div class="progress-percentage pull-right">${{si.prev_invoice_amount}}</div>
+							</div>
+							<div class="clearfix mb10">
+								<div class="progress-title pull-left">Next Billing Date:</div>
+								<div class="progress-percentage pull-right">{{si.cycle_end}}</div>
+							</div>
+							<p class="well mt20" style="padding:8px;">To make account changes, please contact Customer Support at 855-889-3939</p>
+							<!-- <span id="assistly-widget-1" class="assistly-widget">
+							  <span style="clear:both;" class="more mt10"><a class="btn btn-default a-desk-widget a-desk-widget-chat" href="http://support.convirza.com:80/customer/widget/chats/new?">Make Changes</a></span>
+							</span> -->
+						</accordion-group>
+
+						<accordion-group is-open="rightbarAccordions[3].open" ng-class="{open:rightbarAccordions[3].open}" ng-show="billing_node && admin">
+							<accordion-heading>
+								Customer Support Access
+							</accordion-heading>
+							<div class="clearfix mb10">
+								<label class="control-label" style="padding-top:8px;">Allow Customer
+									Support access to your account?</label>
+
+								<div class="">
+									<toggle-switch on-label="Yes" off-label="No" class="primary switch" ng-model="allow_admin" ng-change="toggleAdmin(allow_admin)">
+										<toggle-switch>
+								</div>
+							</div>
+						</accordion-group>
+
+					</accordion>
+				</div>
+			</div>
+			<!-- END RIGHTBAR -->
+			<div id="page-content" class="clearfix" fit-height>
+				<!-- OU breadcrumbs -->
+				<div class="breadcrumb-wrapper bootstro" ng-controller="BreadcrumbController" ng-show="(isLoggedIn && showBreadCrumb)" data-bootstro-placement="bottom" data-bootstro-step="3" data-bootstro-width="400px" data-bootstro-content="Click the breadcrumb bar to toggle access to navigate your group structure and view data for specific groups." data-bootstro-title="Viewing Group">
+					<div tabindex="0" class="breadcrumb-container" id="gwt-debug--nav-drawer-container">
+						<input type="text" tabindex="-1" role="presentation" style="opacity: 0; height: 1px; width: 1px; z-index: -1; overflow: hidden; position: absolute;">
+
+							<div class="bc-drawer bc-open-shadow">
+								<div class="bc-main">
+									<!-- first breadcrumb -->
+									<div class="bc-drawer-panel-container" id="gwt-debug--nav-drawer-panel-container" title="{{highestOUName}}">
+										<div class="bc-drawer-header-container" id="gwt-debug--nav-drawer-header-container" style="height: 40px;" ng-click="showBoxes = ! showBoxes">
+											<span>
+												<div class="bc-drawer-header-title">
+													<div class="bc-drawer-header-title-style" id="gwt-debug--nav-drawer-title-AGENCY" ng-click="setCurrentOU(highestOUId,0,doNothing); $event.stopPropagation();">
+														{{highestOUName}}
+													</div>
+												</div>
+											</span>
+											<!-- If they user has NOT chosen an OU to drill down to, then the icon class should be "fa fa-angle-down" -->
+											<div ng-show="userOULevel < 2" ng-switch on="bc_ous[1].name">
+												<div ng-switch-when="null" class="bc-drawer-panel-nav" ng-click="resizeBreadCrumbWindow();">
+													<i class="fa fa-angle-down"></i></div>
+												<div ng-switch-default class="bc-drawer-panel-nav">
+													<i class="fa fa-angle-right"></i></div>
+											</div>
+										</div>
+										<!-- The breadcrumb list container will have display set to none unless the breadcrumb container is active -->
+										<div class="bc-drawer-list-container" ng-show="showBoxes && userOULevel < 2">
+											<div class="bc-drawer-list-main" style="overflow: auto; position: relative; zoom: 1;">
+												<div style="position: relative; zoom: 1;" ng-class="highestOUId == selectedOU.id? 'bc-drawer-item-highlight' : ''">
+													<div>
+														<table cellspacing="0" cellpadding="0">
+															<tbody>
+																<tr>
+																</tr>
+																<tr>
+																	<td align="left" style="vertical-align: top;" ng-click="loadLevel1(highestOUId); setSelected(highestOUId,0);">
+																		<div>
+																			<div class="bc-drawer-item-style" id="gwt-debug--nav-drawer-item-AGENCY-API-Vendor-Testing">
+																				<div class="bc-drawer-item">{{highestOUName}}
+																				</div>
+																				<a><i class="pull-right fa fa-fw fa-pencil pt5" ng-show="selectedOU.id == highestOUId" ng-click="editOU(highestOUId, 0)"></i></a>
+																			</div>
+																		</div>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- end first breadcrumb -->
+									<!-- second breadcrumb -->
+									<div class="bc-drawer-panel-container" id="gwt-debug--nav-drawer-panel-container" title="{{bc_ous[1].name}}">
+										<div class="bc-drawer-header-container" id="gwt-debug--nav-drawer-header-container" style="height: 40px;" ng-click="showBoxes = ! showBoxes">
+											<span>
+												<div class="bc-drawer-header-title">
+													<div class="bc-drawer-header-title-style" id="gwt-debug--nav-drawer-title-ADVERTISER" ng-show="bc_ous[1].name != null" ng-click="setCurrentOU(bc_ous[1].id,1,doNothing); $event.stopPropagation();">
+														{{ bc_ous[1].name }}
+													</div>
+												</div>
+											</span>
+											<!-- If they user has NOT chosen an OU to drill down to, then the icon class should be "fa fa-angle-down" -->
+											<div ng-show="bc_ous[1].name != null && userOULevel < 1" ng-switch on="bc_ous[2].name">
+												<div ng-switch-when="null" class="bc-drawer-panel-nav" ng-click="resizeWindow();">
+													<i class="fa fa-angle-down"></i></div>
+												<div ng-switch-default class="bc-drawer-panel-nav">
+													<i class="fa fa-angle-right"></i></div>
+											</div>
+										</div>
+										<!-- The breadcrumb list container will have display set to none unless the breadcrumb container is active -->
+										<div class="bc-drawer-list-container" ng-show="showBoxes && showLevel1 && userOULevel < 2">
+											<div class="bc-drawer-search">
+												<div class="bc-drawer-search-icon">
+													<i class="fa fa-search"></i></div>
+												<input type="text" class="bc-drawer-search-box bc-drawer-search-box-style" id="gwt-debug--nav-drawer-search-box-ADVERTISER" ng-model="query2">
+													<!-- this X allows a user to clear the search box and reloads the list of OUs at this level -->
+													<div class="bc-drawer-search-clear" ng-click="query2 = ''">X
+													</div>
+											</div>
+											<div class="bc-drawer-list-main" style="overflow: auto; position: relative; zoom: 1;">
+												<div style="position: relative; zoom: 1;">
+													<div>
+														<!-- this is a div to display if a user initiates a search from the search box -->
+														<table cellspacing="0" cellpadding="0">
+															<tbody>
+																<tr ng-repeat="ou in level2OUs | filter: { name: query2 } | orderBy: 'name' ">
+																	<td align="left" style="vertical-align: top;" ng-click="loadLevel2(ou.id); setSelected(ou.id,1);">
+																		<div ng-class="ou.id == selectedOU.id? 'bc-drawer-item-highlight' : ''">
+																			<div class="bc-drawer-item-style" id="gwt-debug--nav-drawer-item-ADVERTISER-LogMyCalls">
+																				<div class="bc-drawer-item" title="{{ou.name}}">
+																					{{ ou.name }}
+																				</div>
+																				<a><i class="pull-right fa fa-fw fa-pencil pt5" ng-show="selectedOU.id == ou.id" ng-click="editOU(ou.id, 1)"></i></a>
+																			</div>
+																		</div>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+														<!-- this is a spinner icon to let a user know a search or lookup is happening and it will be hidden once the list is displayed -->
+														<i class="fa fa-spinner fa-spin" style="display: none"></i>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+									<!-- end second breadcrumb -->
+									<!-- third breadcrumb -->
+									<div class="bc-drawer-panel-container" id="gwt-debug--nav-drawer-panel-container" title="{{ bc_ous[2].name }}">
+										<div class="bc-drawer-header-container" id="gwt-debug--nav-drawer-header-container" style="height: 40px;" ng-click="showBoxes = ! showBoxes">
+											<span>
+												<div class="bc-drawer-header-title">
+													<div class="bc-drawer-header-title-style" id="gwt-debug--nav-drawer-title-ENGINE_ACCOUNT" ng-click="setCurrentOU(bc_ous[2].id,2,doNothing); $event.stopPropagation();">
+														{{ bc_ous[2].name }}
+													</div>
+												</div>
+											</span>
+										</div>
+										<!-- The breadcrumb list container will have display set to none unless the breadcrumb container is active -->
+										<div class="bc-drawer-list-container" ng-show="showBoxes && showLevel2 && userOULevel < 1">
+											<div class="bc-drawer-search">
+												<div class="bc-drawer-search-icon">
+													<i class="fa fa-search"></i></div>
+												<input type="text" class="bc-drawer-search-box bc-drawer-search-box-style" id="gwt-debug--nav-drawer-search-box-ENGINE_ACCOUNT" ng-model="query3">
+													<!-- this X allows a user to clear the search box and reloads the list of OUs at this level -->
+													<div class="bc-drawer-search-clear" ng-click="query3 = ''">X
+													</div>
+											</div>
+											<div class="bc-drawer-list-main" style="overflow: auto; position: relative; zoom: 1;">
+												<div style="position: relative; zoom: 1;">
+													<div>
+														<!-- this is a div to display if a user initiates a search from the search box -->
+														<table cellspacing="0" cellpadding="0">
+															<tbody>
+																<tr ng-repeat="ou in level3OUs | filter: { name: query3 } | orderBy: 'name' ">
+																	<td align="left" style="vertical-align: top;" ng-click="setSelected(ou.id,2);">
+																		<div ng-class="ou.id == selectedOU.id? 'bc-drawer-item-highlight' : ''">
+																			<div class="bc-drawer-item-style" id="gwt-debug--nav-drawer-item-ENGINE_ACCOUNT-test-engine">
+																				<div class="bc-drawer-item" title="{{ ou.name }}">
+																					{{ ou.name }}
+																				</div>
+																				<a><i class="pull-right fa fa-fw fa-pencil pt5" ng-show="selectedOU.id == ou.id" ng-click="editOU(ou.id, 2)"></i></a>
+																			</div>
+																		</div>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+														<!-- this is a spinner icon to let a user know a search or lookup is happening and it will be hidden once the list is displayed -->
+														<i class="fa-li fa fa-spinner fa-spin" style="display: inline;"></i>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+									<!-- end third breadcrumb -->
+								</div>
+								<!-- apply and cancel buttons -->
+								<!-- The breadcrumb drawer action panel is only visible when the breadcrumb container is active -->
+								<div class="bc-drawer-action-panel" ng-show="showBoxes && userOULevel < 2">
+									<button type="button" class="btn btn-default btn-sm" id="gwt-debug--nav-drawer-action-button" ng-disabled="applyDisabled" ng-click="setCurrentOU(selectedOU.id, selectedOU.level,doNothing); resizeWindow();" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Apply', eventLabel: 'View OU'});">
+										Apply
+									</button>
+									<button type="button" class="btn btn-primary btn-sm" id="gwt-debug--nav-drawer-cancel-button" ng-click="showBoxes = false; resizeWindow();" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Cancel', eventLabel: 'View OU'});">
+										Cancel
+									</button>
+								</div>
+							</div>
+					</div>
+				</div>
+				<!-- end OU breadcrumbs -->
+				<div id="wrap" ng-view="" class="mainview-animation">
+
+				</div>
+				<!--wrap -->
+			</div>
+			<!-- page-content -->
+
+			<footer role="contentinfo">
+				<div class="clearfix">
+					<ul class="list-unstyled list-inline pull-left">
+						<li ng-hide="white_label_active">Convirza &copy; <script>document.write(new Date().getFullYear())</script></li>
+					</ul>
+					<button class="pull-right btn btn-default btn-xs hidden-print" back-to-top style="padding: 1px 10px;">
+						<i class="fa fa-angle-up"></i></button>
+				</div>
+			</footer>
+
+		</div>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries. Placeholdr.js enables the placeholder attribute -->
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+		<script type="text/javascript" src="assets/plugins/charts-flot/excanvas.min.js"></script>
+		<script type='text/javascript' src='assets/plugins/misc/placeholdr.js'></script>
+		<script src="bower_components/es5-shim/es5-shim.js"></script>
+		<script src="bower_components/json3/lib/json3.min.js"></script>
+		<![endif]-->
+
+		<!-- GA tracking code -->
+		<script>
+			(function (i, s, o, g, r, a, m) {
+				i['GoogleAnalyticsObject'] = r;
+				i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+				}, i[r].l = 1 * new Date();
+				a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+				a.async = 1;
+				a.src = g;
+				m.parentNode.insertBefore(a, m)
+			})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+			ga('create', 'UA-62954804-3', 'auto');
+			var token = window.sessionStorage.token;
+			console.log(token);
+			//ga('create', 'UA-8130978-5', token);
+			ga('set', '&uid', token); // Set the user ID using signed-in user_id.
+			ga('send', 'pageview');
+		</script>
+
+		<script src="js/vendor1.js"></script>
+
+		<script src="js/vendor2.js"></script>
+		<!--
+		<script src="assets/plugins/form-ckeditor/ckeditor.js"></script>
+		<script src="assets/plugins/form-ckeditor/plugins/strinsert/plugin.js"></script>
+		<script src='assets/plugins/form-ckeditor/lang/en.js'></script>
+
+		-->
+		<script src="assets/alasql/alasql.min.js"></script>
+        <script src="assets/alasql/xlsx.core.min.js"></script>
+		<script src="assets/plugins/ckeditor/ckeditor.js"></script>
+		<script src="assets/plugins/ckeditor/plugins/strinsert/plugin.js"></script>
+		<script src='assets/plugins/ckeditor/lang/en.js'></script>
+
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.js"></script>
+		<!-- <script src="https://cdn.rawgit.com/laertejjunior/freezeheader/master/js/jquery.freezeheader.js"></script> -->
+
+		<script src="config.js"></script>
+		<script src="js/app.js"></script>
+
+		<script src="js/vendor3.js"></script>
+		<div id="zabbix-monitoring" style="display:none;">{{loginState}}</div>
+	</body>
+</html>

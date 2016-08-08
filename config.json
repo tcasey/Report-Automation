@@ -1,6 +1,7 @@
 {
-  "format": "HTML",
+  "format": "CSV",
   "baseURL": "https://stag-cmo-la.convirza.com/#/",
+  "CSVstuff": "callDetail?report=calls-details&user_id=2&limit=20000&offset=0&start_date=2016-07-10&end_date=2016-08-08&timezone=America%2FNew_York&weNeedMoreDataScotty=aye_captain&role=1",
   "report": "callDetails",
   "OU": "BlingyMarketingLLC",
   "filter": "&filter=America",
