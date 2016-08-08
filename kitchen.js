@@ -178,10 +178,7 @@ co(function*() {
     case "CSV":
 
       var goods = yield horseman.evaluate(function() {
-          var scoped = $('page-heading').scope();
-          return{
-            scoped
-          }
+          $("#page-heading").scope().items;
         })
 
         console.log(goods);
