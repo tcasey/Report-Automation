@@ -60,10 +60,10 @@ co(function*() {
   yield horseman.waitForSelector('.mb10'); // Waiting for page of selector
   yield horseman.viewport(1200, 980);
 
-  yield horseman.evaluate(function() { // Changing date range
-    $('fa-calendar').click();
-    $("li:contains('Last 30 Days')").click();
-  })
+  // yield horseman.evaluate(function() { // Changing date range
+  //   $('fa-calendar').click();
+  //   $("li:contains('Last 30 Days')").click();
+  // })
 
   yield horseman.wait(4000);
 
@@ -76,11 +76,13 @@ co(function*() {
 
   var text = yield horseman.text('.mb10'); // Calculating paginated pages
   var paginationIndicator = text.split(' ').reverse();
+  // console.log('paginationIndicator', paginationIndicator);
   var page = (Math.ceil(paginationIndicator[0] / 100))
+  // console.log('page', page);
 
   pageAmt.unshift(page);
   var pageLogic = pageAmt[0];
-  console.log('# of paginated pages: ', pageLogic); // # of paginated pages: #
+  console.log('# of paginated pages: ', pageLogic); // # of paginated pages: 4
 
   switch (config.format) {
 
@@ -106,9 +108,12 @@ co(function*() {
         }
       } else {
         yield horseman.evaluate(function() {
-          var cleanUrl = document.URL.split('?')[1];
-          var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-          $('#page-heading').append('<span id=cleanBC>Current applied filter: ' + cleanUrl + '</span>');
+          var filter = document.URL.split('?')[1];
+          if (filter !== undefined) {
+            $(document).ready(function() {
+              $('#cdr_table').append('<span id=cleanBC>Current applied filter: ' + filter + '</span>');
+            });
+          }
         })
         namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i); //  **** NEW NAMING CONVENTION HERE
 
@@ -161,9 +166,12 @@ co(function*() {
 
       } else {
         yield horseman.evaluate(function() {
-          var cleanUrl = document.URL.split('?')[1];
-          var route = cleanUrl.substr(cleanUrl.indexOf("#") + 2);
-          $('#page-heading').append('<span id=cleanBC>Current applied filter: ' + cleanUrl + '</span>');
+          var filter = document.URL.split('?')[1];
+          if (filter !== undefined) {
+            $(document).ready(function() {
+              $('#cdr_table').append('<span id=cleanBC>Current applied filter: ' + filter + '</span>');
+            });
+          }
         })
         namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i); //  **** NEW NAMING CONVENTION HERE
         yield horseman.pdf('co/' + namely[0] + '.pdf', {
