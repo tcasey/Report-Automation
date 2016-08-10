@@ -27,6 +27,8 @@ co(function*() {
     domain: config.cookie.domain
   })
   yield horseman.viewport(780, 980);
+  yield horseman.includeJs('https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.js');
+  yield horseman.wait(3000);
   yield horseman.open(config.baseURL + 'login/');
   yield horseman.type('input[id="email"]', keys.cfa_email);
   yield horseman.type('input[id="password"]', keys.cfa_pass);
@@ -60,10 +62,10 @@ co(function*() {
   yield horseman.waitForSelector('.mb10'); // Waiting for page of selector
   yield horseman.viewport(1200, 980);
 
-  // yield horseman.evaluate(function() { // Changing date range
-  //   $('fa-calendar').click();
-  //   $("li:contains('Last 30 Days')").click();
-  // })
+  yield horseman.evaluate(function() { // Changing date range
+    $('fa-calendar').click();
+    $("li:contains('Last 30 Days')").click();
+  })
 
   yield horseman.wait(4000);
 
@@ -115,7 +117,7 @@ co(function*() {
             });
           }
         })
-        namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i); //  **** NEW NAMING CONVENTION HERE
+        namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour); //  **** NEW NAMING CONVENTION HERE
 
         yield horseman.crop('.panel-inverse', 'co/' + namely[0] + '.png');
       }
@@ -173,7 +175,7 @@ co(function*() {
             });
           }
         })
-        namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i); //  **** NEW NAMING CONVENTION HERE
+        namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour); //  **** NEW NAMING CONVENTION HERE
         yield horseman.pdf('co/' + namely[0] + '.pdf', {
           format: 'A2',
           orientation: 'portrait',
@@ -185,11 +187,16 @@ co(function*() {
 
     case "CSV":
 
-      var goods = yield horseman.evaluate(function() {
-          $("#page-heading").scope().items;
+      var goods = yield horseman.evaluate( function() {
+        return{
+          data: angular.element($("#page-heading")).scope().getCSVData(),
+          loot: angular.element($("#page-heading")).scope().items
+
+          }
         })
 
-        console.log(goods);
+        console.log('The data is: ', goods.data);
+        console.log('The loot is: ', goods.loot);
 
       // yield horseman.download(config.baseURL+config.CSVstuff, 'csv.csv')
         //     Download the contents of url.
