@@ -78,9 +78,7 @@ co(function*() {
 
   var text = yield horseman.text('.mb10'); // Calculating paginated pages
   var paginationIndicator = text.split(' ').reverse();
-  // console.log('paginationIndicator', paginationIndicator);
   var page = (Math.ceil(paginationIndicator[0] / 100))
-  // console.log('page', page);
 
   pageAmt.unshift(page);
   var pageLogic = pageAmt[0];
@@ -136,7 +134,6 @@ co(function*() {
             }
           })
 
-
           namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour + '-' + i); //  **** NEW NAMING CONVENTION HERE
           yield horseman.pdf('co/' + namely[0] + '.pdf', {
             format: 'A2',
@@ -189,8 +186,8 @@ co(function*() {
 
       var goods = yield horseman.evaluate( function() {
         return{
-          data: angular.element($("#page-heading")).scope().getCSVData(),
-          loot: angular.element($("#page-heading")).scope().items
+          // loot: angular.element($("#page-heading")).scope().callDetailsData,    // √ array of data needed for CSV
+          data: angular.element($("#page-heading")).scope().csvHeaderNames
 
           }
         })
@@ -198,10 +195,6 @@ co(function*() {
         console.log('The data is: ', goods.data);
         console.log('The loot is: ', goods.loot);
 
-      // yield horseman.download(config.baseURL+config.CSVstuff, 'csv.csv')
-        //     Download the contents of url.
-        //     If path is supplied the contents will be written there, otherwise this gets the contents.
-        //     If binary is true it gets the contents as a node Buffer, otherwise it gets them as a string (binary defaults to false).
       console.log("May or may not have been captured");
       break;
 

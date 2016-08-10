@@ -1,0 +1,40 @@
+deferred resolve
+
+Array[14748]
+[0 … 9999]
+[0 … 99]
+0:Object
+a:"382950"
+b:"05-13-2016 2:10:41 pm"
+c:"Blingy Marketing LLC"
+d:"Saurabh Campaign"
+e:"Mobile:Apps"
+f:"8014137035"
+g:"8014074373"
+h:"Saurabh Real Pool3 | 8018786943"
+i:12
+
+dataset
+
+Array[14748]
+[0 … 9999]
+[0 … 99]
+0:Object
+call_id:"382950"
+call_start_date:"05-13-2016 2:10:41 pm"
+call_started:"2016-05-13 14:10:41"
+campaign_id:752
+campaign_name:"Saurabh Campaign"
+category:"Mobile"
+disposition:"ANSWERED"
+duration:12
+org_unit_name:"Blingy Marketing LLC"
+provisioned_route_id:4444
+recording_file:"0d2e5750-9806-4f2a-bae7-208e986b9e4f"
+repeat_call:true
+ring_to:"8018786943"
+ring_to_name:"Saurabh Real Pool3"
+s3URL:"https://s3.amazonaws.com/LogMyCalls_dev/call_recordings/0d2e5750-9806-4f2a-bae7-208e986b9e4f.mp3?AWSAccessKeyId=AKIAJOFNBC663P5C6EAA&Expires=1471468529&Signature=hlXwtZHfkWCY4YVE%2BD9I112jAn0%3D"
+source:"8014137035"
+sub_category:"Apps"
+tracking:"8014074373"
