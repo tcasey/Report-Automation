@@ -1,19 +1,12 @@
 {
   "format": "CSV",
   "baseURL": "https://stag-cmo-la.convirza.com/#/",
-  "CSVstuff": "callDetail?report=calls-details&user_id=2&limit=20000&offset=0&start_date=2016-07-10&end_date=2016-08-08&timezone=America%2FNew_York&weNeedMoreDataScotty=aye_captain&role=1",
-  "report": "callDetails",
+  "filter": "?offset=0&limit=100&start_date=2016-04-01&end_date=2016-08-10&filtertype=s&filter=&page=1",
   "OU": "BlingyMarketingLLC",
-  "filter": "&filter=America",
-  "dateSet": "July 15",
-  "dateFilter": "",
-  "dateTrigger": "July 25",
   "frequencyInHour": "168",
   "cookie": {
     "name": "yoda",
     "value": "yoda",
-    "domain": ".convirza.com",
-    "http": "",
-    "secure": ""
+    "domain": ".convirza.com"
   }
 }
