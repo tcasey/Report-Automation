@@ -1,8 +1,11 @@
 var Horseman = require('node-horseman'),
   config = require('./config.json'),
+  loot = require('./loot.json'),
   pdfconcat = require('pdfconcat'),
+  json2csv = require('json2csv'),
   keys = require('./keys'),
   co = require('co'),
+  fs = require('fs'),
   emailData = [],
   routes = [],
   namely = [],
@@ -186,16 +189,29 @@ co(function*() {
 
       var goods = yield horseman.evaluate( function() {
         return{
-          // loot: angular.element($("#page-heading")).scope().callDetailsData,    // √ array of data needed for CSV
+          // loot: angular.element($("#page-heading")).scope().callDetailsDataReport,    // √ array of data needed for CSV
           data: angular.element($("#page-heading")).scope().csvHeaderNames
 
           }
         })
+        namely.unshift(config.OU + '-' + routes[0] + '-' + config.frequencyInHour); //  **** NEW NAMING CONVENTION HERE
 
-        console.log('The data is: ', goods.data);
-        console.log('The loot is: ', goods.loot);
+        var reportData = JSON.stringify(goods.loot)
+        // console.log('The data is: ', goods.data);
+        // console.log('The loot is: ', goods.loot);
 
-      console.log("May or may not have been captured");
+        var opts = {
+          data: loot,
+          fields: goods.data,
+          quotes: ''
+        };
+        var csv = json2csv(opts);
+
+        fs.writeFile('co/'+namely[0]+'.csv', csv, function(err) {
+          if (err) throw err;
+        });
+
+      console.log("CSV has been captured");
       break;
 
     default:

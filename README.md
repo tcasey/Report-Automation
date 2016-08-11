@@ -24,5 +24,5 @@ Most of the methods used can be found on [casperJS](http://docs.casperjs.org/en/
 
   * (x) Verify logging in with a cookie actually works
   * (√) Automatize the naming of files created to be unique (ou+route+frequency/number)
-  * (x) Get CSV download to work (maybe via angular scope)
+  * (√) Get CSV download to work (maybe via angular scope)
   * (x) Save files in S3
